@@ -8,9 +8,19 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:var(--bg);font-size:10px}
 @media print{
-  body{background:#fff}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{size:A4;margin:5mm}
   .no-print{display:none}
+  /* darken all gray text for print legibility */
+  .card-date,.card-pred .guess-label{color:#444 !important}
+  .card-vs-text{color:#999 !important}
+  .card-num{color:#999 !important}
+  .card-pred{border-top-color:#bbb !important}
+  .card{border-color:#bbb !important}
+  .card-score .sbox{border-color:#bbb !important}
+  .card-score{color:#555 !important}
+  .stage-tag{background:#e1f5ee !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .stage-tag.ko{background:#faeee7 !important}
 }
 
 /* Toolbar */
