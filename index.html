@@ -104,7 +104,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 </div>
 <div class="filter-bar" id="filterBar">
   <button class="filter-btn active" data-filter="all">全部</button>
-  <button class="filter-btn" data-filter="today">今明两天</button>
+  <button class="filter-btn" data-filter="tomorrow">明日赛事</button>
   <button class="filter-btn" data-filter="group">小组赛</button>
   <button class="filter-btn" data-filter="ko">淘汰赛</button>
   <button class="filter-btn" data-filter="pending">待预测</button>
@@ -177,11 +177,11 @@ function renderMatches(filter='all'){
   let matches=[...scheduleData];
   const today=todayStr(),tomorrow=tomorrowStr();
 
-  if(filter==='all') matches=matches.filter(m=>m.date>=today);
-  else if(filter==='group') matches=matches.filter(m=>m.stage==='group'&&m.date>=today);
-  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage)&&m.date>=today);
+  if(filter==='all') matches=matches.filter(m=>m.date>=today&&m.homeScore===null);
+  else if(filter==='group') matches=matches.filter(m=>m.stage==='group'&&m.date>=today&&m.homeScore===null);
+  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage)&&m.date>=today&&m.homeScore===null);
   else if(filter==='pending') matches=matches.filter(m=>m.date>=today&&!getPrediction(m.id)&&!getResult(m.id));
-  else if(filter==='today') matches=matches.filter(m=>m.date===today||m.date===tomorrow);
+  else if(filter==='tomorrow') matches=matches.filter(m=>m.date===tomorrow);
 
   let html='',lastDate='';
   matches.forEach(m=>{
