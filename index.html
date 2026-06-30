@@ -150,6 +150,8 @@ function stageClass(s){return KO_STAGES.includes(s)?'ko':''}
 function todayStr(){const d=new Date();return d.toISOString().slice(0,10)}
 function tomorrowStr(){const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)}
 function matchTimeKey(m){return m.date+'T'+m.time}
+function isPlaceholder(name){return /第一|第二|3rd|^胜者|^负者/.test(name)}
+function formatTBD(name){return name.replace(/([A-L])第一/,'$1 组第一').replace(/([A-L])第二/,'$1 组第二').replace(/^3rd$/,'小组第三')}
 
 // --- HISTORY ---
 function addHistory(type,data){
@@ -175,9 +177,10 @@ function renderMatches(filter='all'){
   let matches=[...scheduleData];
   const today=todayStr(),tomorrow=tomorrowStr();
 
-  if(filter==='group') matches=matches.filter(m=>m.stage==='group');
-  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage));
-  else if(filter==='pending') matches=matches.filter(m=>!getPrediction(m.id)&&!getResult(m.id));
+  if(filter==='all') matches=matches.filter(m=>m.date>=today);
+  else if(filter==='group') matches=matches.filter(m=>m.stage==='group'&&m.date>=today);
+  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage)&&m.date>=today);
+  else if(filter==='pending') matches=matches.filter(m=>m.date>=today&&!getPrediction(m.id)&&!getResult(m.id));
   else if(filter==='today') matches=matches.filter(m=>m.date===today||m.date===tomorrow);
 
   let html='',lastDate='';
@@ -198,8 +201,11 @@ function renderMatches(filter='all'){
       lastDate=m.date;
     }
 
-    const homeName=m.home.length>10?m.home.slice(0,9)+'…':m.home;
-    const awayName=m.away.length>10?m.away.slice(0,9)+'…':m.away;
+    const isTBDHome=isPlaceholder(m.home),isTBDAway=isPlaceholder(m.away);
+    const homeName=isTBDHome?formatTBD(m.home):(m.home.length>10?m.home.slice(0,9)+'…':m.home);
+    const awayName=isTBDAway?formatTBD(m.away):(m.away.length>10?m.away.slice(0,9)+'…':m.away);
+    const homeFlag=isTBDHome?'⚽':m.homeFlag;
+    const awayFlag=isTBDAway?'⚽':m.awayFlag;
     const isToday=m.date===today;
 
     const scores=showRes?result:hasResult(m)?{home:m.homeScore,away:m.awayScore}:null;
@@ -225,7 +231,7 @@ function renderMatches(filter='all'){
     }
 
     let resultRow='';
-    if(played&&!showRes&&!m.home.includes('Group')&&!m.home.startsWith('W')&&!m.home.startsWith('L')){
+    if(played&&!showRes&&!isPlaceholder(m.home)&&!isPlaceholder(m.away)){
       resultRow='<div class="result-row" id="result-'+m.id+'">'
         +'<span style="font-size:12px;color:var(--muted)">比分:</span>'
         +'<input type="number" id="hs-'+m.id+'" placeholder="?" min="0" max="20">'
@@ -239,9 +245,9 @@ function renderMatches(filter='all'){
       +'<span class="stage-tag '+stageClass(m.stage)+'">'+stageInfo+(m.group?' · '+m.group+'组':'')+'</span>'
       +(m.time?'<span>'+m.time+'</span>':'')+'</div>'
       +'<div class="match-teams">'
-      +'<div class="team"><div class="flag">'+m.homeFlag+'</div><div class="name '+(m.home.length>10?'small':'')+'">'+homeName+'</div></div>'
+      +'<div class="team"><div class="flag">'+homeFlag+'</div><div class="name '+(m.home.length>10?'small':'')+'">'+homeName+'</div></div>'
       +'<div class="vs-area">'+scoreHtml+'</div>'
-      +'<div class="team"><div class="flag">'+m.awayFlag+'</div><div class="name '+(m.away.length>10?'small':'')+'">'+awayName+'</div></div>'
+      +'<div class="team"><div class="flag">'+awayFlag+'</div><div class="name '+(m.away.length>10?'small':'')+'">'+awayName+'</div></div>'
       +'</div>'+predHtml+resultRow+'</div>';
   });
 
@@ -329,8 +335,10 @@ function predict(mid,choice){
   if(getPrediction(mid)){toast('已预测过');return}
   const m=scheduleData.find(x=>x.id===mid);
   appData.predictions[mid]=choice;
-  const labels={home:m.home+'赢',draw:'平局',away:m.away+'赢'};
-  addHistory('predict',{mid,choice,choiceLabel:labels[choice],teams:m.home+' vs '+m.away});
+  const hName=isPlaceholder(m.home)?formatTBD(m.home):m.home;
+  const aName=isPlaceholder(m.away)?formatTBD(m.away):m.away;
+  const labels={home:hName+'赢',draw:'平局',away:aName+'赢'};
+  addHistory('predict',{mid,choice,choiceLabel:labels[choice],teams:hName+' vs '+aName});
   saveData(appData);
   updateTotalScore();
   renderMatches(currentFilter);
@@ -348,10 +356,12 @@ function saveResult(mid){
   const pts=calcPoints(mid);
   updateTotalScore();
   const m=scheduleData.find(x=>x.id===mid);
+  const hName=isPlaceholder(m.home)?formatTBD(m.home):m.home;
+  const aName=isPlaceholder(m.away)?formatTBD(m.away):m.away;
   const actual=hs>as?'home':hs<as?'away':'draw';
   const pred=getPrediction(mid);
   const correct=pred===actual;
-  addHistory('result',{mid,teams:m.home+' vs '+m.away,result:hs+':'+as,pts,correct});
+  addHistory('result',{mid,teams:hName+' vs '+aName,result:hs+':'+as,pts,correct});
   const newBadges=checkNewBadges(prevPts,prevCorrect);
   newBadges.forEach(b=>{addHistory('badge',{name:b.name,icon:b.icon})});
   if(pts>=10||newBadges.length>0)celebrate();
