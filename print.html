@@ -8,9 +8,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:var(--bg);font-size:10px}
 @media print{
-  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  @page{size:A4;margin:5mm}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding-bottom:12mm}
+  @page{size:A4 landscape;margin:6mm 7mm 10mm 7mm}
   .no-print{display:none}
+  .card-sheet{padding-bottom:8mm}
   /* darken all gray text for print legibility */
   .card-date,.card-pred .guess-label{color:#444 !important}
   .card-vs-text{color:#999 !important}
@@ -45,8 +46,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:
 .sheet-title{text-align:center;font-size:13px;font-weight:700;color:var(--primary);padding:6px 0 8px;letter-spacing:1px}
 .sheet-title.ko{color:#993c1d}
 
-/* Grid: 3 cols */
-.card-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:2px}
+/* Grid: 2 cols for landscape A4 */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:2px}
 
 /* Card */
 .card{
@@ -104,7 +105,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:
 .card.scored .card-pred{border-top-style:dashed}
 
 @media print{
-  .card-grid{gap:6px}
+  .card-grid{gap:12px}
   .card{padding:6px 4px}
 }
 </style>
@@ -120,7 +121,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:
     <option value="knockout">仅淘汰赛</option>
   </select>
   <button onclick="window.print()">🖨️ 打印</button>
-  <p style="margin-top:6px;font-size:10px;opacity:.8">A4纸彩色打印 · 每页9张 · 沿边框剪开</p>
+  <p style="margin-top:6px;font-size:10px;opacity:.8">A4横版打印 · 每页4张 · 沿边框剪开</p>
 </div>
 
 <!-- COVER -->
