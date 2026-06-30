@@ -41,13 +41,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:
 .rules-box .pts{color:var(--primary);font-weight:600}
 
 /* Stage sheet */
-.card-sheet{page-break-before:always;padding-top:4px;background:#fff}
-.card-sheet:first-of-type{page-break-before:auto}
+.card-sheet{padding-top:4px;background:#fff}
 .sheet-title{text-align:center;font-size:13px;font-weight:700;color:var(--primary);padding:6px 0 8px;letter-spacing:1px}
 .sheet-title.ko{color:#993c1d}
 
-/* Grid: 2 cols for landscape A4 */
-.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:2px}
+/* Grid: 2 cols using inline-block for max compat */
+.card-grid{padding:2px;width:100%;font-size:0}
+.card-grid .card{display:inline-block;vertical-align:top;width:calc(50% - 6px);margin-right:10px;margin-bottom:10px;box-sizing:border-box;font-size:10px}
+.card-grid .card:nth-child(2n){margin-right:0}
 
 /* Card */
 .card{
@@ -105,7 +106,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:
 .card.scored .card-pred{border-top-style:dashed}
 
 @media print{
-  .card-grid{gap:12px}
+  .card-grid .card{width:calc(50% - 6px) !important;margin-right:10px !important;margin-bottom:10px !important}
   .card{padding:6px 4px}
 }
 </style>
