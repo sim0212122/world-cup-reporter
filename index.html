@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>世界杯小记者 2026</title>
+<style>
+:root{
+  --bg:#f0f4f0;
+  --card:#fff;
+  --primary:#0f6e56;
+  --accent:#d4537e;
+  --gold:#ef9f27;
+  --text:#2c2c2a;
+  --muted:#888780;
+  --border:#d3d1c7;
+  --win:#0f6e56;
+  --lose:#a32d2d;
+  --draw:#185fa5;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.header{background:var(--primary);color:#fff;padding:14px 16px 10px;position:sticky;top:0;z-index:100}
+.header h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px}
+.header .score-badge{background:var(--gold);color:#fff;font-size:12px;padding:3px 10px;border-radius:10px;margin-left:auto;font-weight:600}
+
+.tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:56px;z-index:99}
+.tab{flex:1;text-align:center;padding:12px 0;font-size:14px;font-weight:500;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+
+.filter-bar{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:var(--bg)}
+.filter-btn{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--card);font-size:13px;white-space:nowrap;cursor:pointer;color:var(--text)}
+.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+.match-list{padding:0 12px 80px}
+.match-card{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid var(--border);position:relative}
+.match-card.played{opacity:.85}
+.match-date{font-size:11px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.stage-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:#e1f5ee;color:var(--win)}
+.stage-tag.ko{background:#faeee7;color:#993c1d}
+.match-teams{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
+.team{text-align:center;flex:1}
+.team .flag{font-size:28px;margin-bottom:4px}
+.team .name{font-size:13px;font-weight:500}
+.team .name.small{font-size:11px;color:var(--muted)}
+.vs-area{text-align:center;min-width:60px}
+.vs-area .score{font-size:24px;font-weight:700;letter-spacing:2px}
+.vs-area .score.null{font-size:16px;color:var(--muted);font-weight:400}
+.vs-area .time{font-size:11px;color:var(--primary);margin-top:2px}
+
+.prediction-row{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prediction-row.done{background:#f8faf8;border-radius:8px;padding:10px}
+.pred-label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.pred-value{font-size:13px;font-weight:600}
+.pred-value.win{color:var(--win)}
+.pred-value.draw{color:var(--draw)}
+.pred-value.lose{color:var(--lose)}
+.pred-actions{display:flex;gap:8px;flex:1}
+.pred-btn{flex:1;padding:10px 6px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;text-align:center}
+.pred-btn:active{transform:scale(.96)}
+.pred-btn.selected{border-color:var(--primary);background:#e1f5ee;color:var(--primary)}
+.pred-btn.missed{opacity:.4}
+.result-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.result-row input{width:44px;height:36px;text-align:center;font-size:18px;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
+.result-row .save-btn{flex:1;padding:10px;border-radius:8px;border:none;background:var(--primary);color:#fff;font-size:14px;font-weight:500;cursor:pointer}
+.result-row .pts{font-size:12px;color:var(--primary);font-weight:600;white-space:nowrap}
+
+.stats-panel{padding:16px}
+.stat-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--border)}
+.stat-card .num{font-size:28px;font-weight:700;color:var(--primary)}
+.stat-card .num.gold{color:var(--gold)}
+.stat-card .label{font-size:12px;color:var(--muted);margin-top:4px}
+
+.badges{margin-top:16px}
+.badges h3{font-size:15px;margin-bottom:12px}
+.badge-grid{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:500;border:1px solid var(--border)}
+.badge.earned{background:#e1f5ee;border-color:#9fe1cb;color:var(--win)}
+.badge.locked{background:var(--bg);color:var(--muted);opacity:.5}
+.badge .badge-icon{font-size:18px}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state .emoji{font-size:48px;margin-bottom:12px}
+.empty-state p{font-size:14px}
+
+.detail-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.detail-modal .modal-content{background:var(--card);border-radius:16px 16px 0 0;width:100%;max-height:70vh;overflow-y:auto;padding:20px 16px 30px;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 24px;border-radius:20px;font-size:14px;z-index:300;animation:fadeIn .3s ease;pointer-events:none}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+.celebration{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:250}
+.confetti{position:absolute;width:8px;height:8px;border-radius:2px;animation:fall 2s ease-out forwards}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+@media (min-width:768px){
+  body{max-width:480px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}
+  .header{border-radius:12px 12px 0 0}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚽ 世界杯小记者 <span class="score-badge" id="totalScore">⭐ 0分</span></h1>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="matches">📅 赛程</button>
+  <button class="tab" data-tab="predict">🤔 预测</button>
+  <button class="tab" data-tab="stats">📊 战绩</button>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">全部</button>
+  <button class="filter-btn" data-filter="group">小组赛</button>
+  <button class="filter-btn" data-filter="round32">1/16决赛</button>
+  <button class="filter-btn" data-filter="round16">1/8决赛</button>
+  <button class="filter-btn" data-filter="ko">淘汰赛</button>
+  <button class="filter-btn" data-filter="pending">待预测</button>
+</div>
+
+<div id="contentArea"></div>
+
+<div id="toastContainer"></div>
+<div id="celebrationContainer"></div>
+
+<script>
+// --- DATA ---
+const DATA_KEY='wc-reporter-v1';
+function loadData(){
+  try{return JSON.parse(localStorage.getItem(DATA_KEY))||{predictions:{},results:{}}}catch(e){return{predictions:{},results:{}}}
+}
+function saveData(d){localStorage.setItem(DATA_KEY,JSON.stringify(d))}
+let appData=loadData();
+let scheduleData=[];
+
+const STAGE_LABELS={group:'小组赛',round32:'1/16决赛',round16:'1/8决赛',quarter:'1/4决赛',semi:'半决赛',bronze:'三四名决赛','final':'决赛'};
+const KO_STAGES=['round32','round16','quarter','semi','bronze','final'];
+
+async function init(){
+  const resp=await fetch('schedule.json');
+  scheduleData=(await resp.json()).matchList;
+  updateTotalScore();
+  renderMatches();
+}
+
+// --- HELPERS ---
+function fmtDate(d){const m=parseInt(d.split('-')[1]),day=parseInt(d.split('-')[2]);return `${m}月${day}日`}
+function hasResult(m){return m.homeScore!==null&&m.awayScore!==null}
+function isPlayed(m){return hasResult(m)||new Date(m.date)<new Date('2026-06-30')}
+function getPrediction(mid){return appData.predictions[mid]||null}
+function getResult(mid){return appData.results[mid]||null}
+function calcPoints(mid){
+  const p=getPrediction(mid),r=getResult(mid);
+  if(!p||!r)return 0;
+  const actual=r.home>r.away?'home':r.home<r.away?'away':'draw';
+  if(p===actual)return actual==='draw'?15:10;
+  return 3;
+}
+function stageClass(stage){return KO_STAGES.includes(stage)?'ko':''}
+
+// --- UI ---
+function renderMatches(filter='all'){
+  const area=document.getElementById('contentArea');
+  let matches=scheduleData;
+  if(filter==='group') matches=matches.filter(m=>m.stage==='group');
+  else if(filter==='round32') matches=matches.filter(m=>m.stage==='round32');
+  else if(filter==='round16') matches=matches.filter(m=>m.stage==='round16');
+  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage));
+  else if(filter==='pending') matches=matches.filter(m=>!getPrediction(m.id)&&!hasResult(m));
+
+  let html='';
+  let lastDate='';
+  matches.forEach(m=>{
+    const pred=getPrediction(m.id);
+    const result=getResult(m.id);
+    const played=hasResult(m)||new Date(m.date+'T'+m.time)<new Date();
+    const showPrediction=pred&&!result;
+    const showResult=!!result;
+
+    if(m.date!==lastDate){
+      const dow=['周日','周一','周二','周三','周四','周五','周六'];
+      const d=new Date(m.date+'T12:00');
+      html+=`<div style="font-size:13px;font-weight:600;padding:16px 4px 8px;color:var(--text)">${fmtDate(m.date)} ${dow[d.getDay()]}</div>`;
+      lastDate=m.date;
+    }
+
+    const homeName=m.home.length>10?m.home.slice(0,9)+'…':m.home;
+    const awayName=m.away.length>10?m.away.slice(0,9)+'…':m.away;
+    const scoreHtml=result
+      ?`<div class="score">${result.home} : ${result.away}</div>`
+      :played&&hasResult(m)?`<div class="score">${m.homeScore} : ${m.awayScore}</div>`
+      :`<div class="score null">vs</div><div class="time">${m.time}</div>`;
+
+    let predHtml='';
+    if(showPrediction){
+      const labels={home:m.home+'赢',draw:'平局',away:m.away+'赢'};
+      predHtml=`
+        <div class="prediction-row done">
+          <div><div class="pred-label">我的预测</div><div class="pred-value ${pred}">${labels[pred]}</div></div>
+        </div>`;
+    }else if(result){
+      const pts=calcPoints(m.id);
+      const actual=result.home>result.away?'home':result.home<result.away?'away':'draw';
+      const predMatch=pred===actual;
+      const emoji=predMatch?'✅':pred?'❌':'';
+      predHtml=`
+        <div class="prediction-row done">
+          <div><div class="pred-label">我的预测</div><div class="pred-value ${pred||'lose'}">${pred?labels[pred]:'未预测'}</div></div>
+          ${pred?`<div style="font-size:12px;color:${predMatch?'var(--win)':'var(--lose)'};font-weight:600;align-self:center">${emoji} ${predMatch?'+'+pts:'+'+pts}</div>`:''}
+        </div>`;
+    }else if(!played){
+      predHtml=`
+        <div class="prediction-row">
+          <div class="pred-actions">
+            <button class="pred-btn" onclick="predict(${m.id},'home')" style="flex:1.2">🏠 ${homeName}赢</button>
+            <button class="pred-btn" onclick="predict(${m.id},'draw')">🤝 平局</button>
+            <button class="pred-btn" onclick="predict(${m.id},'away')" style="flex:1.2">${awayName}赢 🏠</button>
+          </div>
+        </div>`;
+    }
+
+    let resultRow='';
+    if(played&&!result&&!m.home.includes('Group')&&!m.home.includes('W')){
+      resultRow=`
+        <div class="result-row" id="result-${m.id}">
+          <span style="font-size:12px;color:var(--muted)">比分:</span>
+          <input type="number" id="hs-${m.id}" placeholder="?" min="0" max="20">
+          <span>:</span>
+          <input type="number" id="as-${m.id}" placeholder="?" min="0" max="20">
+          <button class="save-btn" onclick="saveResult(${m.id})">记录</button>
+        </div>`;
+    }
+
+    html+=`
+      <div class="match-card ${played?'played':''}">
+        <div class="match-date">
+          <span class="stage-tag ${stageClass(m.stage)}">${STAGE_LABELS[m.stage]||m.stage}${m.group?' · '+m.group+'组':''}</span>
+        </div>
+        <div class="match-teams">
+          <div class="team"><div class="flag">${m.homeFlag}</div><div class="name ${m.home.length>10?'small':''}">${homeName}</div></div>
+          <div class="vs-area">${scoreHtml}</div>
+          <div class="team"><div class="flag">${m.awayFlag}</div><div class="name ${m.away.length>10?'small':''}">${awayName}</div></div>
+        </div>
+        ${predHtml}
+        ${resultRow}
+      </div>`;
+  });
+
+  if(matches.length===0) html=`<div class="empty-state"><div class="emoji">🎉</div><p>没有找到比赛</p></div>`;
+  area.innerHTML=html;
+}
+
+function renderStats(){
+  const area=document.getElementById('contentArea');
+  let totalPred=0,totalCorrect=0,totalPts=0,missed=0;
+  scheduleData.forEach(m=>{
+    const p=getPrediction(m.id),r=getResult(m.id);
+    if(p)totalPred++;
+    if(r){
+      const actual=r.home>r.away?'home':r.home<r.away?'draw':'draw';
+      if(p){
+        if(p===actual)totalCorrect++;
+        totalPts+=calcPoints(m.id);
+      }
+    }
+    if(!p&&hasResult(m))missed++;
+  });
+
+  const accuracy=totalPred>0?Math.round(totalCorrect/totalPred*100):0;
+
+  const badges=[
+    {id:'newbie',name:'新手记者',icon:'🌱',desc:'完成第一次预测',earned:totalPred>=1},
+    {id:'attendance',name:'全勤宝宝',icon:'📋',desc:'所有比赛都预测',earned:totalPred>=104},
+    {id:'sharp5',name:'预测达人',icon:'🎯',desc:'猜对5场',earned:totalCorrect>=5},
+    {id:'sharp10',name:'神算子',icon:'🔮',desc:'猜对10场',earned:totalCorrect>=10},
+    {id:'sharp20',name:'预言大师',icon:'🧠',desc:'猜对20场',earned:totalCorrect>=20},
+    {id:'champion',name:'冠军预言家',icon:'🏆',desc:'开赛前猜中冠军',earned:false},
+    {id:'scribe',name:'勤笔头',icon:'📝',desc:'所有比赛都记录比分',earned:false},
+    {id:'gold200',name:'满分记者',icon:'⭐',desc:'总分达到200',earned:totalPts>=200},
+    {id:'gold500',name:'超级记者',icon:'🌟',desc:'总分达到500',earned:totalPts>=500},
+  ];
+
+  let html=`
+    <div class="stats-panel">
+      <div class="stat-cards">
+        <div class="stat-card"><div class="num">${totalPred}</div><div class="label">预测场次</div></div>
+        <div class="stat-card"><div class="num">${totalCorrect}</div><div class="label">猜对场次</div></div>
+        <div class="stat-card"><div class="num">${accuracy}%</div><div class="label">正确率</div></div>
+        <div class="stat-card"><div class="num gold">${totalPts}</div><div class="label">总积分</div></div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--muted)">
+          <span>进度</span><span>${totalPred}/104 场</span>
+        </div>
+        <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${Math.round(totalPred/104*100)}%;background:var(--primary);border-radius:4px;transition:width .5s"></div>
+        </div>
+      </div>
+      <div class="badges"><h3>🏅 成就徽章</h3><div class="badge-grid">`;
+  badges.forEach(b=>{
+    html+=`<div class="badge ${b.earned?'earned':'locked'}" title="${b.desc}"><span class="badge-icon">${b.earned?b.icon:'🔒'}</span>${b.name}</div>`;
+  });
+  html+=`</div></div></div>`;
+  area.innerHTML=html;
+  document.getElementById('filterBar').style.display='none';
+}
+
+function updateTotalScore(){
+  let pts=0;
+  scheduleData.forEach(m=>{pts+=calcPoints(m.id)});
+  document.getElementById('totalScore').textContent=`⭐ ${pts}分`;
+}
+
+// --- ACTIONS ---
+function predict(mid,choice){
+  if(getResult(mid)){toast('比赛已结束，无法预测');return}
+  if(getPrediction(mid)){toast('已预测过，可到赛程页修改');return}
+  appData.predictions[mid]=choice;
+  saveData(appData);
+  updateTotalScore();
+  renderMatches(currentFilter);
+  toast('预测成功！✅');
+}
+
+function saveResult(mid){
+  const hs=parseInt(document.getElementById('hs-'+mid).value);
+  const as=parseInt(document.getElementById('as-'+mid).value);
+  if(isNaN(hs)||isNaN(as)){toast('请填写比分');return}
+  appData.results[mid]={home:hs,away:as};
+  saveData(appData);
+  updateTotalScore();
+  const pts=calcPoints(mid);
+  if(pts>=10){celebrate()}
+  renderMatches(currentFilter);
+  toast(pts>=10?'猜对了！🎉 积分+'+pts:'比分已记录，积分+'+pts);
+}
+
+function toast(msg){
+  const c=document.getElementById('toastContainer');
+  const el=document.createElement('div');el.className='toast';el.textContent=msg;
+  c.appendChild(el);
+  setTimeout(()=>el.remove(),2000);
+}
+
+function celebrate(){
+  const c=document.getElementById('celebrationContainer');
+  const colors=['#ef9f27','#d4537e','#378add','#1d9e75','#534ab7','#d85a30'];
+  for(let i=0;i<30;i++){
+    const el=document.createElement('div');el.className='confetti';
+    el.style.left=Math.random()*100+'%';
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDelay=Math.random()*.5+'s';
+    el.style.animationDuration=(1.5+Math.random()*1)+'s';
+    c.appendChild(el);
+    setTimeout(()=>el.remove(),2500);
+  }
+}
+
+// --- FILTERS & TABS ---
+let currentFilter='all';
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    currentFilter=this.dataset.filter;
+    renderMatches(currentFilter);
+  });
+});
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    this.classList.add('active');
+    const t=this.dataset.tab;
+    if(t==='matches'){document.getElementById('filterBar').style.display='flex';renderMatches(currentFilter)}
+    else if(t==='predict'){document.getElementById('filterBar').style.display='flex';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.querySelector('[data-filter="pending"]').classList.add('active');currentFilter='pending';renderMatches('pending')}
+    else if(t==='stats'){renderStats()}
+  });
+});
+
+init();
+</script>
+</body>
+</html>
