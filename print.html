@@ -152,9 +152,10 @@ function renderCards(matches,filter){
   const today=new Date().toISOString().slice(0,10);
   let filtered=[...matches];
 
-  if(filter==='upcoming') filtered=filtered.filter(m=>m.date>=today);
-  else if(filter==='group') filtered=filtered.filter(m=>m.stage==='group'&&m.date>=today);
-  else if(filter==='knockout') filtered=filtered.filter(m=>KO_STAGES.includes(m.stage)&&m.date>=today);
+  if(filter==='upcoming') filtered=filtered.filter(m=>m.date>=today&&m.homeScore===null);
+  else if(filter==='all') filtered=filtered.filter(m=>m.date>=today&&m.homeScore===null);
+  else if(filter==='group') filtered=filtered.filter(m=>m.stage==='group'&&m.date>=today&&m.homeScore===null);
+  else if(filter==='knockout') filtered=filtered.filter(m=>KO_STAGES.includes(m.stage)&&m.date>=today&&m.homeScore===null);
 
   const container=document.getElementById('sheetsContainer');
   let html='',currentStage='';
