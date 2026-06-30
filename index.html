@@ -6,36 +6,24 @@
 <title>世界杯小记者 2026</title>
 <style>
 :root{
-  --bg:#f0f4f0;
-  --card:#fff;
-  --primary:#0f6e56;
-  --accent:#d4537e;
-  --gold:#ef9f27;
-  --text:#2c2c2a;
-  --muted:#888780;
-  --border:#d3d1c7;
-  --win:#0f6e56;
-  --lose:#a32d2d;
-  --draw:#185fa5;
+  --bg:#f0f4f0;--card:#fff;--primary:#0f6e56;--accent:#d4537e;
+  --gold:#ef9f27;--text:#2c2c2a;--muted:#888780;--border:#d3d1c7;
+  --win:#0f6e56;--lose:#a32d2d;--draw:#185fa5;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .header{background:var(--primary);color:#fff;padding:14px 16px 10px;position:sticky;top:0;z-index:100}
 .header h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px}
 .header .score-badge{background:var(--gold);color:#fff;font-size:12px;padding:3px 10px;border-radius:10px;margin-left:auto;font-weight:600}
-
 .tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:56px;z-index:99}
 .tab{flex:1;text-align:center;padding:12px 0;font-size:14px;font-weight:500;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
 .tab.active{color:var(--primary);border-bottom-color:var(--primary)}
-
 .filter-bar{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:var(--bg)}
 .filter-btn{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--card);font-size:13px;white-space:nowrap;cursor:pointer;color:var(--text)}
 .filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 
-.match-list{padding:0 12px 80px}
-.match-card{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid var(--border);position:relative}
-.match-card.played{opacity:.85}
-.match-date{font-size:11px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.match-card{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid var(--border)}
+.match-card.today{border-left:3px solid var(--gold)}
 .stage-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:#e1f5ee;color:var(--win)}
 .stage-tag.ko{background:#faeee7;color:#993c1d}
 .match-teams{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
@@ -44,26 +32,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .team .name{font-size:13px;font-weight:500}
 .team .name.small{font-size:11px;color:var(--muted)}
 .vs-area{text-align:center;min-width:60px}
-.vs-area .score{font-size:24px;font-weight:700;letter-spacing:2px}
-.vs-area .score.null{font-size:16px;color:var(--muted);font-weight:400}
+.vs-area .score{font-size:20px;font-weight:700;letter-spacing:2px}
+.vs-area .score.null{font-size:14px;color:var(--muted);font-weight:400}
 .vs-area .time{font-size:11px;color:var(--primary);margin-top:2px}
 
 .prediction-row{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
 .prediction-row.done{background:#f8faf8;border-radius:8px;padding:10px}
 .pred-label{font-size:11px;color:var(--muted);margin-bottom:4px}
 .pred-value{font-size:13px;font-weight:600}
-.pred-value.win{color:var(--win)}
-.pred-value.draw{color:var(--draw)}
-.pred-value.lose{color:var(--lose)}
+.pred-value.win{color:var(--win)}.pred-value.draw{color:var(--draw)}.pred-value.lose{color:var(--lose)}
 .pred-actions{display:flex;gap:8px;flex:1}
-.pred-btn{flex:1;padding:10px 6px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;text-align:center}
+.pred-btn{flex:1;padding:12px 6px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;text-align:center}
 .pred-btn:active{transform:scale(.96)}
 .pred-btn.selected{border-color:var(--primary);background:#e1f5ee;color:var(--primary)}
-.pred-btn.missed{opacity:.4}
 .result-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .result-row input{width:44px;height:36px;text-align:center;font-size:18px;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
 .result-row .save-btn{flex:1;padding:10px;border-radius:8px;border:none;background:var(--primary);color:#fff;font-size:14px;font-weight:500;cursor:pointer}
-.result-row .pts{font-size:12px;color:var(--primary);font-weight:600;white-space:nowrap}
 
 .stats-panel{padding:16px}
 .stat-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
@@ -72,68 +56,68 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stat-card .num.gold{color:var(--gold)}
 .stat-card .label{font-size:12px;color:var(--muted);margin-top:4px}
 
+.progress-bar{margin-bottom:20px;background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border)}
+
+.activity-feed{background:var(--card);border-radius:12px;padding:16px 0;border:1px solid var(--border);margin-bottom:16px}
+.activity-feed h3{font-size:14px;margin:0 16px 12px;color:var(--text)}
+.activity-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:12px}
+.activity-item:last-child{border-bottom:none}
+.activity-item .act-icon{font-size:16px;min-width:20px;text-align:center}
+.activity-item .act-text{flex:1;line-height:1.5}
+.activity-item .act-date{font-size:10px;color:var(--muted);white-space:nowrap}
+.activity-item.good .act-text{color:var(--win)}
+.activity-item.badge .act-text{color:var(--gold)}
+.activity-empty{text-align:center;padding:20px;color:var(--muted);font-size:13px}
+
 .badges{margin-top:16px}
 .badges h3{font-size:15px;margin-bottom:12px}
 .badge-grid{display:flex;flex-wrap:wrap;gap:8px}
 .badge{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:500;border:1px solid var(--border)}
 .badge.earned{background:#e1f5ee;border-color:#9fe1cb;color:var(--win)}
 .badge.locked{background:var(--bg);color:var(--muted);opacity:.5}
-.badge .badge-icon{font-size:18px}
+.badge.new-badge{animation:pulse .6s ease 3}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+.date-header{padding:16px 4px 8px;font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.date-header .today-tag{background:var(--gold);color:#fff;font-size:10px;padding:2px 8px;border-radius:8px}
+.date-header .tomorrow-tag{background:var(--draw);color:#fff;font-size:10px;padding:2px 8px;border-radius:8px}
 
 .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
 .empty-state .emoji{font-size:48px;margin-bottom:12px}
 .empty-state p{font-size:14px}
 
-.detail-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:200;display:flex;align-items:flex-end;justify-content:center}
-.detail-modal .modal-content{background:var(--card);border-radius:16px 16px 0 0;width:100%;max-height:70vh;overflow-y:auto;padding:20px 16px 30px;animation:slideUp .3s ease}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.modal-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 24px;border-radius:20px;font-size:14px;z-index:300;animation:fadeIn .3s ease;pointer-events:none}
 @keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
 .celebration{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:250}
 .confetti{position:absolute;width:8px;height:8px;border-radius:2px;animation:fall 2s ease-out forwards}
 @keyframes fall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 
-@media (min-width:768px){
-  body{max-width:480px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}
-  .header{border-radius:12px 12px 0 0}
-}
+@media (min-width:768px){body{max-width:480px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>⚽ 世界杯小记者 <span class="score-badge" id="totalScore">⭐ 0分</span></h1>
-</div>
-
+<div class="header"><h1>⚽ 世界杯小记者 <span class="score-badge" id="totalScore">⭐ 0分</span></h1></div>
 <div class="tabs">
   <button class="tab active" data-tab="matches">📅 赛程</button>
   <button class="tab" data-tab="predict">🤔 预测</button>
   <button class="tab" data-tab="stats">📊 战绩</button>
 </div>
-
 <div class="filter-bar" id="filterBar">
   <button class="filter-btn active" data-filter="all">全部</button>
+  <button class="filter-btn" data-filter="today">今明两天</button>
   <button class="filter-btn" data-filter="group">小组赛</button>
-  <button class="filter-btn" data-filter="round32">1/16决赛</button>
-  <button class="filter-btn" data-filter="round16">1/8决赛</button>
   <button class="filter-btn" data-filter="ko">淘汰赛</button>
   <button class="filter-btn" data-filter="pending">待预测</button>
 </div>
-
 <div id="contentArea"></div>
-
 <div id="toastContainer"></div>
 <div id="celebrationContainer"></div>
 
 <script>
-// --- DATA ---
-const DATA_KEY='wc-reporter-v1';
+const SCHEDULE_EMBED={"tournament": "2026 FIFA World Cup", "hosts": ["Canada", "Mexico", "USA"], "dates": "2026-06-11 to 2026-07-19", "teams": 48, "matches": 104, "groups": {"A": ["墨西哥", "南非", "韩国", "捷克"], "B": ["加拿大", "意大利", "卡塔尔", "瑞士"], "C": ["巴西", "摩洛哥", "海地", "苏格兰"], "D": ["美国", "巴拉圭", "澳大利亚", "土耳其"], "E": ["德国", "科特迪瓦", "厄瓜多尔", "库拉索"], "F": ["荷兰", "日本", "乌克兰", "突尼斯"], "G": ["比利时", "埃及", "伊朗", "新西兰"], "H": ["西班牙", "沙特", "乌拉圭", "佛得角"], "I": ["法国", "塞内加尔", "伊拉克", "挪威"], "J": ["阿根廷", "奥地利", "约旦", "阿尔及利亚"], "K": ["葡萄牙", "哥伦比亚", "乌兹别克斯坦", "刚果(金)"], "L": ["英格兰", "加纳", "巴拿马", "克罗地亚"]}, "stages": {"group": {"label": "小组赛", "matches": [1, 72]}, "round32": {"label": "1/16决赛", "matches": [73, 88]}, "round16": {"label": "1/8决赛", "matches": [89, 96]}, "quarter": {"label": "1/4决赛", "matches": [97, 100]}, "semi": {"label": "半决赛", "matches": [101, 102]}, "bronze": {"label": "三四名决赛", "matches": [103, 103]}, "final": {"label": "决赛", "matches": [104, 104]}}, "matchList": [{"id": 1, "date": "2026-06-11", "time": "20:00", "stage": "group", "group": "A", "home": "墨西哥", "homeFlag": "🇲🇽", "away": "南非", "awayFlag": "🇿🇦", "homeScore": null, "awayScore": null}, {"id": 2, "date": "2026-06-11", "time": "23:00", "stage": "group", "group": "A", "home": "韩国", "homeFlag": "🇰🇷", "away": "捷克", "awayFlag": "🇨🇿", "homeScore": null, "awayScore": null}, {"id": 3, "date": "2026-06-12", "time": "20:00", "stage": "group", "group": "B", "home": "加拿大", "homeFlag": "🇨🇦", "away": "意大利", "awayFlag": "🇮🇹", "homeScore": null, "awayScore": null}, {"id": 4, "date": "2026-06-12", "time": "23:00", "stage": "group", "group": "D", "home": "美国", "homeFlag": "🇺🇸", "away": "巴拉圭", "awayFlag": "🇵🇾", "homeScore": null, "awayScore": null}, {"id": 5, "date": "2026-06-13", "time": "20:00", "stage": "group", "group": "C", "home": "海地", "homeFlag": "🇭🇹", "away": "苏格兰", "awayFlag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "homeScore": null, "awayScore": null}, {"id": 6, "date": "2026-06-13", "time": "20:00", "stage": "group", "group": "D", "home": "澳大利亚", "homeFlag": "🇦🇺", "away": "土耳其", "awayFlag": "🇹🇷", "homeScore": null, "awayScore": null}, {"id": 7, "date": "2026-06-13", "time": "23:00", "stage": "group", "group": "C", "home": "巴西", "homeFlag": "🇧🇷", "away": "摩洛哥", "awayFlag": "🇲🇦", "homeScore": null, "awayScore": null}, {"id": 8, "date": "2026-06-13", "time": "23:00", "stage": "group", "group": "B", "home": "卡塔尔", "homeFlag": "🇶🇦", "away": "瑞士", "awayFlag": "🇨🇭", "homeScore": null, "awayScore": null}, {"id": 9, "date": "2026-06-14", "time": "20:00", "stage": "group", "group": "E", "home": "科特迪瓦", "homeFlag": "🇨🇮", "away": "厄瓜多尔", "awayFlag": "🇪🇨", "homeScore": null, "awayScore": null}, {"id": 10, "date": "2026-06-14", "time": "20:00", "stage": "group", "group": "E", "home": "德国", "homeFlag": "🇩🇪", "away": "库拉索", "awayFlag": "🇨🇼", "homeScore": null, "awayScore": null}, {"id": 11, "date": "2026-06-14", "time": "23:00", "stage": "group", "group": "F", "home": "荷兰", "homeFlag": "🇳🇱", "away": "日本", "awayFlag": "🇯🇵", "homeScore": null, "awayScore": null}, {"id": 12, "date": "2026-06-14", "time": "23:00", "stage": "group", "group": "F", "home": "乌克兰", "homeFlag": "🇺🇦", "away": "突尼斯", "awayFlag": "🇹🇳", "homeScore": null, "awayScore": null}, {"id": 13, "date": "2026-06-15", "time": "20:00", "stage": "group", "group": "H", "home": "沙特", "homeFlag": "🇸🇦", "away": "乌拉圭", "awayFlag": "🇺🇾", "homeScore": null, "awayScore": null}, {"id": 14, "date": "2026-06-15", "time": "20:00", "stage": "group", "group": "H", "home": "西班牙", "homeFlag": "🇪🇸", "away": "佛得角", "awayFlag": "🇨🇻", "homeScore": null, "awayScore": null}, {"id": 15, "date": "2026-06-15", "time": "23:00", "stage": "group", "group": "G", "home": "伊朗", "homeFlag": "🇮🇷", "away": "新西兰", "awayFlag": "🇳🇿", "homeScore": null, "awayScore": null}, {"id": 16, "date": "2026-06-15", "time": "23:00", "stage": "group", "group": "G", "home": "比利时", "homeFlag": "🇧🇪", "away": "埃及", "awayFlag": "🇪🇬", "homeScore": null, "awayScore": null}, {"id": 17, "date": "2026-06-16", "time": "20:00", "stage": "group", "group": "I", "home": "法国", "homeFlag": "🇫🇷", "away": "塞内加尔", "awayFlag": "🇸🇳", "homeScore": null, "awayScore": null}, {"id": 18, "date": "2026-06-16", "time": "20:00", "stage": "group", "group": "I", "home": "伊拉克", "homeFlag": "🇮🇶", "away": "挪威", "awayFlag": "🇳🇴", "homeScore": null, "awayScore": null}, {"id": 19, "date": "2026-06-16", "time": "23:00", "stage": "group", "group": "J", "home": "阿根廷", "homeFlag": "🇦🇷", "away": "阿尔及利亚", "awayFlag": "🇩🇿", "homeScore": null, "awayScore": null}, {"id": 20, "date": "2026-06-16", "time": "23:00", "stage": "group", "group": "J", "home": "奥地利", "homeFlag": "🇦🇹", "away": "约旦", "awayFlag": "🇯🇴", "homeScore": null, "awayScore": null}, {"id": 21, "date": "2026-06-17", "time": "20:00", "stage": "group", "group": "L", "home": "加纳", "homeFlag": "🇬🇭", "away": "巴拿马", "awayFlag": "🇵🇦", "homeScore": null, "awayScore": null}, {"id": 22, "date": "2026-06-17", "time": "20:00", "stage": "group", "group": "L", "home": "英格兰", "homeFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "away": "克罗地亚", "awayFlag": "🇭🇷", "homeScore": null, "awayScore": null}, {"id": 23, "date": "2026-06-17", "time": "23:00", "stage": "group", "group": "K", "home": "葡萄牙", "homeFlag": "🇵🇹", "away": "刚果(金)", "awayFlag": "🇨🇩", "homeScore": null, "awayScore": null}, {"id": 24, "date": "2026-06-17", "time": "23:00", "stage": "group", "group": "K", "home": "乌兹别克斯坦", "homeFlag": "🇺🇿", "away": "哥伦比亚", "awayFlag": "🇨🇴", "homeScore": null, "awayScore": null}, {"id": 25, "date": "2026-06-18", "time": "20:00", "stage": "group", "group": "A", "home": "捷克", "homeFlag": "🇨🇿", "away": "南非", "awayFlag": "🇿🇦", "homeScore": null, "awayScore": null}, {"id": 26, "date": "2026-06-18", "time": "20:00", "stage": "group", "group": "B", "home": "瑞士", "homeFlag": "🇨🇭", "away": "意大利", "awayFlag": "🇮🇹", "homeScore": null, "awayScore": null}, {"id": 27, "date": "2026-06-18", "time": "23:00", "stage": "group", "group": "B", "home": "加拿大", "homeFlag": "🇨🇦", "away": "卡塔尔", "awayFlag": "🇶🇦", "homeScore": null, "awayScore": null}, {"id": 28, "date": "2026-06-18", "time": "23:00", "stage": "group", "group": "A", "home": "墨西哥", "homeFlag": "🇲🇽", "away": "韩国", "awayFlag": "🇰🇷", "homeScore": null, "awayScore": null}, {"id": 29, "date": "2026-06-19", "time": "20:00", "stage": "group", "group": "C", "home": "巴西", "homeFlag": "🇧🇷", "away": "海地", "awayFlag": "🇭🇹", "homeScore": null, "awayScore": null}, {"id": 30, "date": "2026-06-19", "time": "20:00", "stage": "group", "group": "C", "home": "苏格兰", "homeFlag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "away": "摩洛哥", "awayFlag": "🇲🇦", "homeScore": null, "awayScore": null}, {"id": 31, "date": "2026-06-19", "time": "23:00", "stage": "group", "group": "D", "home": "土耳其", "homeFlag": "🇹🇷", "away": "巴拉圭", "awayFlag": "🇵🇾", "homeScore": null, "awayScore": null}, {"id": 32, "date": "2026-06-19", "time": "23:00", "stage": "group", "group": "D", "home": "美国", "homeFlag": "🇺🇸", "away": "澳大利亚", "awayFlag": "🇦🇺", "homeScore": null, "awayScore": null}, {"id": 33, "date": "2026-06-20", "time": "20:00", "stage": "group", "group": "E", "home": "德国", "homeFlag": "🇩🇪", "away": "科特迪瓦", "awayFlag": "🇨🇮", "homeScore": null, "awayScore": null}, {"id": 34, "date": "2026-06-20", "time": "20:00", "stage": "group", "group": "E", "home": "厄瓜多尔", "homeFlag": "🇪🇨", "away": "库拉索", "awayFlag": "🇨🇼", "homeScore": null, "awayScore": null}, {"id": 35, "date": "2026-06-20", "time": "23:00", "stage": "group", "group": "F", "home": "荷兰", "homeFlag": "🇳🇱", "away": "乌克兰", "awayFlag": "🇺🇦", "homeScore": null, "awayScore": null}, {"id": 36, "date": "2026-06-20", "time": "23:00", "stage": "group", "group": "F", "home": "突尼斯", "homeFlag": "🇹🇳", "away": "日本", "awayFlag": "🇯🇵", "homeScore": null, "awayScore": null}, {"id": 37, "date": "2026-06-21", "time": "20:00", "stage": "group", "group": "H", "home": "乌拉圭", "homeFlag": "🇺🇾", "away": "佛得角", "awayFlag": "🇨🇻", "homeScore": null, "awayScore": null}, {"id": 38, "date": "2026-06-21", "time": "20:00", "stage": "group", "group": "H", "home": "西班牙", "homeFlag": "🇪🇸", "away": "沙特", "awayFlag": "🇸🇦", "homeScore": null, "awayScore": null}, {"id": 39, "date": "2026-06-21", "time": "23:00", "stage": "group", "group": "G", "home": "比利时", "homeFlag": "🇧🇪", "away": "伊朗", "awayFlag": "🇮🇷", "homeScore": null, "awayScore": null}, {"id": 40, "date": "2026-06-21", "time": "23:00", "stage": "group", "group": "G", "home": "新西兰", "homeFlag": "🇳🇿", "away": "埃及", "awayFlag": "🇪🇬", "homeScore": null, "awayScore": null}, {"id": 41, "date": "2026-06-22", "time": "20:00", "stage": "group", "group": "I", "home": "挪威", "homeFlag": "🇳🇴", "away": "塞内加尔", "awayFlag": "🇸🇳", "homeScore": null, "awayScore": null}, {"id": 42, "date": "2026-06-22", "time": "20:00", "stage": "group", "group": "I", "home": "法国", "homeFlag": "🇫🇷", "away": "伊拉克", "awayFlag": "🇮🇶", "homeScore": null, "awayScore": null}, {"id": 43, "date": "2026-06-22", "time": "23:00", "stage": "group", "group": "J", "home": "阿根廷", "homeFlag": "🇦🇷", "away": "奥地利", "awayFlag": "🇦🇹", "homeScore": null, "awayScore": null}, {"id": 44, "date": "2026-06-22", "time": "23:00", "stage": "group", "group": "J", "home": "约旦", "homeFlag": "🇯🇴", "away": "阿尔及利亚", "awayFlag": "🇩🇿", "homeScore": null, "awayScore": null}, {"id": 45, "date": "2026-06-23", "time": "20:00", "stage": "group", "group": "L", "home": "英格兰", "homeFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "away": "加纳", "awayFlag": "🇬🇭", "homeScore": null, "awayScore": null}, {"id": 46, "date": "2026-06-23", "time": "20:00", "stage": "group", "group": "L", "home": "巴拿马", "homeFlag": "🇵🇦", "away": "克罗地亚", "awayFlag": "🇭🇷", "homeScore": null, "awayScore": null}, {"id": 47, "date": "2026-06-23", "time": "23:00", "stage": "group", "group": "K", "home": "葡萄牙", "homeFlag": "🇵🇹", "away": "乌兹别克斯坦", "awayFlag": "🇺🇿", "homeScore": null, "awayScore": null}, {"id": 48, "date": "2026-06-23", "time": "23:00", "stage": "group", "group": "K", "home": "哥伦比亚", "homeFlag": "🇨🇴", "away": "刚果(金)", "awayFlag": "🇨🇩", "homeScore": null, "awayScore": null}, {"id": 49, "date": "2026-06-24", "time": "20:00", "stage": "group", "group": "C", "home": "苏格兰", "homeFlag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "away": "巴西", "awayFlag": "🇧🇷", "homeScore": null, "awayScore": null}, {"id": 50, "date": "2026-06-24", "time": "20:00", "stage": "group", "group": "C", "home": "摩洛哥", "homeFlag": "🇲🇦", "away": "海地", "awayFlag": "🇭🇹", "homeScore": null, "awayScore": null}, {"id": 51, "date": "2026-06-24", "time": "20:00", "stage": "group", "group": "B", "home": "瑞士", "homeFlag": "🇨🇭", "away": "加拿大", "awayFlag": "🇨🇦", "homeScore": null, "awayScore": null}, {"id": 52, "date": "2026-06-24", "time": "20:00", "stage": "group", "group": "B", "home": "意大利", "homeFlag": "🇮🇹", "away": "卡塔尔", "awayFlag": "🇶🇦", "homeScore": null, "awayScore": null}, {"id": 53, "date": "2026-06-24", "time": "23:00", "stage": "group", "group": "A", "home": "捷克", "homeFlag": "🇨🇿", "away": "墨西哥", "awayFlag": "🇲🇽", "homeScore": null, "awayScore": null}, {"id": 54, "date": "2026-06-24", "time": "23:00", "stage": "group", "group": "A", "home": "南非", "homeFlag": "🇿🇦", "away": "韩国", "awayFlag": "🇰🇷", "homeScore": null, "awayScore": null}, {"id": 55, "date": "2026-06-25", "time": "20:00", "stage": "group", "group": "E", "home": "库拉索", "homeFlag": "🇨🇼", "away": "科特迪瓦", "awayFlag": "🇨🇮", "homeScore": null, "awayScore": null}, {"id": 56, "date": "2026-06-25", "time": "20:00", "stage": "group", "group": "E", "home": "厄瓜多尔", "homeFlag": "🇪🇨", "away": "德国", "awayFlag": "🇩🇪", "homeScore": null, "awayScore": null}, {"id": 57, "date": "2026-06-25", "time": "20:00", "stage": "group", "group": "F", "home": "日本", "homeFlag": "🇯🇵", "away": "乌克兰", "awayFlag": "🇺🇦", "homeScore": null, "awayScore": null}, {"id": 58, "date": "2026-06-25", "time": "20:00", "stage": "group", "group": "F", "home": "突尼斯", "homeFlag": "🇹🇳", "away": "荷兰", "awayFlag": "🇳🇱", "homeScore": null, "awayScore": null}, {"id": 59, "date": "2026-06-25", "time": "23:00", "stage": "group", "group": "D", "home": "土耳其", "homeFlag": "🇹🇷", "away": "美国", "awayFlag": "🇺🇸", "homeScore": null, "awayScore": null}, {"id": 60, "date": "2026-06-25", "time": "23:00", "stage": "group", "group": "D", "home": "巴拉圭", "homeFlag": "🇵🇾", "away": "澳大利亚", "awayFlag": "🇦🇺", "homeScore": null, "awayScore": null}, {"id": 61, "date": "2026-06-26", "time": "20:00", "stage": "group", "group": "I", "home": "挪威", "homeFlag": "🇳🇴", "away": "法国", "awayFlag": "🇫🇷", "homeScore": null, "awayScore": null}, {"id": 62, "date": "2026-06-26", "time": "20:00", "stage": "group", "group": "I", "home": "塞内加尔", "homeFlag": "🇸🇳", "away": "伊拉克", "awayFlag": "🇮🇶", "homeScore": null, "awayScore": null}, {"id": 63, "date": "2026-06-26", "time": "20:00", "stage": "group", "group": "G", "home": "埃及", "homeFlag": "🇪🇬", "away": "伊朗", "awayFlag": "🇮🇷", "homeScore": null, "awayScore": null}, {"id": 64, "date": "2026-06-26", "time": "20:00", "stage": "group", "group": "G", "home": "新西兰", "homeFlag": "🇳🇿", "away": "比利时", "awayFlag": "🇧🇪", "homeScore": null, "awayScore": null}, {"id": 65, "date": "2026-06-26", "time": "23:00", "stage": "group", "group": "H", "home": "佛得角", "homeFlag": "🇨🇻", "away": "沙特", "awayFlag": "🇸🇦", "homeScore": null, "awayScore": null}, {"id": 66, "date": "2026-06-26", "time": "23:00", "stage": "group", "group": "H", "home": "乌拉圭", "homeFlag": "🇺🇾", "away": "西班牙", "awayFlag": "🇪🇸", "homeScore": null, "awayScore": null}, {"id": 67, "date": "2026-06-27", "time": "20:00", "stage": "group", "group": "L", "home": "巴拿马", "homeFlag": "🇵🇦", "away": "英格兰", "awayFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "homeScore": null, "awayScore": null}, {"id": 68, "date": "2026-06-27", "time": "20:00", "stage": "group", "group": "L", "home": "克罗地亚", "homeFlag": "🇭🇷", "away": "加纳", "awayFlag": "🇬🇭", "homeScore": null, "awayScore": null}, {"id": 69, "date": "2026-06-27", "time": "20:00", "stage": "group", "group": "J", "home": "阿尔及利亚", "homeFlag": "🇩🇿", "away": "奥地利", "awayFlag": "🇦🇹", "homeScore": null, "awayScore": null}, {"id": 70, "date": "2026-06-27", "time": "20:00", "stage": "group", "group": "J", "home": "约旦", "homeFlag": "🇯🇴", "away": "阿根廷", "awayFlag": "🇦🇷", "homeScore": null, "awayScore": null}, {"id": 71, "date": "2026-06-27", "time": "23:00", "stage": "group", "group": "K", "home": "哥伦比亚", "homeFlag": "🇨🇴", "away": "葡萄牙", "awayFlag": "🇵🇹", "homeScore": null, "awayScore": null}, {"id": 72, "date": "2026-06-27", "time": "23:00", "stage": "group", "group": "K", "home": "刚果(金)", "homeFlag": "🇨🇩", "away": "乌兹别克斯坦", "awayFlag": "🇺🇿", "homeScore": null, "awayScore": null}, {"id": 73, "date": "2026-06-28", "time": "23:00", "stage": "round32", "group": null, "home": "A第二", "homeFlag": "🏳️", "away": "B第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 74, "date": "2026-06-29", "time": "20:00", "stage": "round32", "group": null, "home": "E第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 75, "date": "2026-06-29", "time": "20:00", "stage": "round32", "group": null, "home": "F第一", "homeFlag": "🏳️", "away": "C第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 76, "date": "2026-06-29", "time": "23:00", "stage": "round32", "group": null, "home": "C第一", "homeFlag": "🏳️", "away": "F第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 77, "date": "2026-06-30", "time": "20:00", "stage": "round32", "group": null, "home": "I第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 78, "date": "2026-06-30", "time": "20:00", "stage": "round32", "group": null, "home": "E第二", "homeFlag": "🏳️", "away": "I第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 79, "date": "2026-06-30", "time": "23:00", "stage": "round32", "group": null, "home": "A第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 80, "date": "2026-07-01", "time": "20:00", "stage": "round32", "group": null, "home": "负者第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 81, "date": "2026-07-01", "time": "20:00", "stage": "round32", "group": null, "home": "D第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 82, "date": "2026-07-01", "time": "23:00", "stage": "round32", "group": null, "home": "G第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 83, "date": "2026-07-02", "time": "20:00", "stage": "round32", "group": null, "home": "K第二", "homeFlag": "🏳️", "away": "负者第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 84, "date": "2026-07-02", "time": "20:00", "stage": "round32", "group": null, "home": "H第一", "homeFlag": "🏳️", "away": "J第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 85, "date": "2026-07-02", "time": "23:00", "stage": "round32", "group": null, "home": "B第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 86, "date": "2026-07-03", "time": "20:00", "stage": "round32", "group": null, "home": "J第一", "homeFlag": "🏳️", "away": "H第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 87, "date": "2026-07-03", "time": "20:00", "stage": "round32", "group": null, "home": "K第一", "homeFlag": "🏳️", "away": "3rd", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 88, "date": "2026-07-03", "time": "23:00", "stage": "round32", "group": null, "home": "D第二", "homeFlag": "🏳️", "away": "G第二", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 89, "date": "2026-07-04", "time": "20:00", "stage": "round16", "group": null, "home": "胜者74", "homeFlag": "🏳️", "away": "胜者77", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 90, "date": "2026-07-04", "time": "23:00", "stage": "round16", "group": null, "home": "胜者73", "homeFlag": "🏳️", "away": "胜者75", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 91, "date": "2026-07-05", "time": "20:00", "stage": "round16", "group": null, "home": "胜者76", "homeFlag": "🏳️", "away": "胜者78", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 92, "date": "2026-07-05", "time": "23:00", "stage": "round16", "group": null, "home": "胜者79", "homeFlag": "🏳️", "away": "胜者80", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 93, "date": "2026-07-06", "time": "20:00", "stage": "round16", "group": null, "home": "胜者83", "homeFlag": "🏳️", "away": "胜者84", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 94, "date": "2026-07-06", "time": "23:00", "stage": "round16", "group": null, "home": "胜者81", "homeFlag": "🏳️", "away": "胜者82", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 95, "date": "2026-07-07", "time": "20:00", "stage": "round16", "group": null, "home": "胜者86", "homeFlag": "🏳️", "away": "胜者88", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 96, "date": "2026-07-07", "time": "23:00", "stage": "round16", "group": null, "home": "胜者85", "homeFlag": "🏳️", "away": "胜者87", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 97, "date": "2026-07-09", "time": "23:00", "stage": "quarter", "group": null, "home": "胜者89", "homeFlag": "🏳️", "away": "胜者90", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 98, "date": "2026-07-10", "time": "23:00", "stage": "quarter", "group": null, "home": "胜者93", "homeFlag": "🏳️", "away": "胜者94", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 99, "date": "2026-07-11", "time": "20:00", "stage": "quarter", "group": null, "home": "胜者91", "homeFlag": "🏳️", "away": "胜者92", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 100, "date": "2026-07-11", "time": "23:00", "stage": "quarter", "group": null, "home": "胜者95", "homeFlag": "🏳️", "away": "胜者96", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 101, "date": "2026-07-14", "time": "23:00", "stage": "semi", "group": null, "home": "胜者97", "homeFlag": "🏳️", "away": "胜者98", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 102, "date": "2026-07-15", "time": "23:00", "stage": "semi", "group": null, "home": "胜者99", "homeFlag": "🏳️", "away": "胜者100", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 103, "date": "2026-07-18", "time": "23:00", "stage": "bronze", "group": null, "home": "负者101", "homeFlag": "🏳️", "away": "负者102", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}, {"id": 104, "date": "2026-07-19", "time": "23:00", "stage": "final", "group": null, "home": "胜者101", "homeFlag": "🏳️", "away": "胜者102", "awayFlag": "🏳️", "homeScore": null, "awayScore": null}]};
+const DATA_KEY='wc-reporter-v2';
 function loadData(){
-  try{return JSON.parse(localStorage.getItem(DATA_KEY))||{predictions:{},results:{}}}catch(e){return{predictions:{},results:{}}}
+  try{const d=JSON.parse(localStorage.getItem(DATA_KEY));return d&&d.predictions?d:{predictions:{},results:{},history:[]}}catch(e){return{predictions:{},results:{},history:[]}}
 }
 function saveData(d){localStorage.setItem(DATA_KEY,JSON.stringify(d))}
 let appData=loadData();
@@ -142,136 +126,143 @@ let scheduleData=[];
 const STAGE_LABELS={group:'小组赛',round32:'1/16决赛',round16:'1/8决赛',quarter:'1/4决赛',semi:'半决赛',bronze:'三四名决赛','final':'决赛'};
 const KO_STAGES=['round32','round16','quarter','semi','bronze','final'];
 
-async function init(){
-  const resp=await fetch('schedule.json');
-  scheduleData=(await resp.json()).matchList;
+function init(){
+  try{
+    scheduleData=SCHEDULE_EMBED.matchList;
+    console.log('Loaded embedded schedule, '+scheduleData.length+' matches');
+  }catch(e){
+    document.getElementById('contentArea').innerHTML='<div class="empty-state"><div class="emoji">😵</div><p>赛程加载失败，请刷新页面</p></div>';
+    return;
+  }
+  scheduleData.sort((a,b)=>a.date+b.time>b.date+b.time?1:-1);
   updateTotalScore();
   renderMatches();
 }
 
-// --- HELPERS ---
-function fmtDate(d){const m=parseInt(d.split('-')[1]),day=parseInt(d.split('-')[2]);return `${m}月${day}日`}
+window.addEventListener('DOMContentLoaded',init);
+
+function fmtDate(d){const m=parseInt(d.split('-')[1]),day=parseInt(d.split('-')[2]);return m+'月'+day+'日'}
 function hasResult(m){return m.homeScore!==null&&m.awayScore!==null}
-function isPlayed(m){return hasResult(m)||new Date(m.date)<new Date('2026-06-30')}
 function getPrediction(mid){return appData.predictions[mid]||null}
 function getResult(mid){return appData.results[mid]||null}
-function calcPoints(mid){
-  const p=getPrediction(mid),r=getResult(mid);
-  if(!p||!r)return 0;
-  const actual=r.home>r.away?'home':r.home<r.away?'away':'draw';
-  if(p===actual)return actual==='draw'?15:10;
-  return 3;
-}
-function stageClass(stage){return KO_STAGES.includes(stage)?'ko':''}
+function calcPoints(mid){const p=getPrediction(mid),r=getResult(mid);if(!p||!r)return 0;const a=r.home>r.away?'home':r.home<r.away?'away':'draw';return p===a?(a==='draw'?15:10):3}
+function stageClass(s){return KO_STAGES.includes(s)?'ko':''}
+function todayStr(){const d=new Date();return d.toISOString().slice(0,10)}
+function tomorrowStr(){const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)}
+function matchTimeKey(m){return m.date+'T'+m.time}
 
-// --- UI ---
+// --- HISTORY ---
+function addHistory(type,data){
+  appData.history.unshift({type,...data,ts:new Date().toISOString()});
+  if(appData.history.length>100)appData.history.length=100;
+  saveData(appData);
+}
+function checkNewBadges(oldPts,oldCorrect){
+  const {totalCorrect,totalPts}=getStats();
+  const badges=[];
+  if(totalCorrect>=1&&oldCorrect<1)badges.push({name:'新手记者',icon:'🌱'});
+  if(totalCorrect>=5&&oldCorrect<5)badges.push({name:'预测达人',icon:'🎯'});
+  if(totalCorrect>=10&&oldCorrect<10)badges.push({name:'神算子',icon:'🔮'});
+  if(totalCorrect>=20&&oldCorrect<20)badges.push({name:'预言大师',icon:'🧠'});
+  if(totalPts>=200&&oldPts<200)badges.push({name:'满分记者',icon:'⭐'});
+  if(totalPts>=500&&oldPts<500)badges.push({name:'超级记者',icon:'🌟'});
+  return badges;
+}
+
+// --- RENDER: MATCHES ---
 function renderMatches(filter='all'){
   const area=document.getElementById('contentArea');
-  let matches=scheduleData;
-  if(filter==='group') matches=matches.filter(m=>m.stage==='group');
-  else if(filter==='round32') matches=matches.filter(m=>m.stage==='round32');
-  else if(filter==='round16') matches=matches.filter(m=>m.stage==='round16');
-  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage));
-  else if(filter==='pending') matches=matches.filter(m=>!getPrediction(m.id)&&!hasResult(m));
+  let matches=[...scheduleData];
+  const today=todayStr(),tomorrow=tomorrowStr();
 
-  let html='';
-  let lastDate='';
+  if(filter==='group') matches=matches.filter(m=>m.stage==='group');
+  else if(filter==='ko') matches=matches.filter(m=>KO_STAGES.includes(m.stage));
+  else if(filter==='pending') matches=matches.filter(m=>!getPrediction(m.id)&&!getResult(m.id));
+  else if(filter==='today') matches=matches.filter(m=>m.date===today||m.date===tomorrow);
+
+  let html='',lastDate='';
   matches.forEach(m=>{
-    const pred=getPrediction(m.id);
-    const result=getResult(m.id);
-    const played=hasResult(m)||new Date(m.date+'T'+m.time)<new Date();
-    const showPrediction=pred&&!result;
-    const showResult=!!result;
+    const pred=getPrediction(m.id),result=getResult(m.id);
+    const played=!!result||new Date(matchTimeKey(m))<new Date();
+    const showPred=pred&&!result;
+    const showRes=!!result;
 
     if(m.date!==lastDate){
-      const dow=['周日','周一','周二','周三','周四','周五','周六'];
+      const isToday=m.date===today,isTomorrow=m.date===tomorrow;
       const d=new Date(m.date+'T12:00');
-      html+=`<div style="font-size:13px;font-weight:600;padding:16px 4px 8px;color:var(--text)">${fmtDate(m.date)} ${dow[d.getDay()]}</div>`;
+      const dow=['周日','周一','周二','周三','周四','周五','周六'];
+      html+='<div class="date-header">'+fmtDate(m.date)+' '+dow[d.getDay()];
+      if(isToday)html+='<span class="today-tag">今天</span>';
+      else if(isTomorrow)html+='<span class="tomorrow-tag">明天</span>';
+      html+='</div>';
       lastDate=m.date;
     }
 
     const homeName=m.home.length>10?m.home.slice(0,9)+'…':m.home;
     const awayName=m.away.length>10?m.away.slice(0,9)+'…':m.away;
-    const scoreHtml=result
-      ?`<div class="score">${result.home} : ${result.away}</div>`
-      :played&&hasResult(m)?`<div class="score">${m.homeScore} : ${m.awayScore}</div>`
+    const isToday=m.date===today;
+
+    const scores=showRes?result:hasResult(m)?{home:m.homeScore,away:m.awayScore}:null;
+    const scoreHtml=scores?`<div class="score">${scores.home} : ${scores.away}</div>`
       :`<div class="score null">vs</div><div class="time">${m.time}</div>`;
 
     let predHtml='';
-    if(showPrediction){
-      const labels={home:m.home+'赢',draw:'平局',away:m.away+'赢'};
-      predHtml=`
-        <div class="prediction-row done">
-          <div><div class="pred-label">我的预测</div><div class="pred-value ${pred}">${labels[pred]}</div></div>
-        </div>`;
-    }else if(result){
+    const labels={home:homeName+'赢',draw:'平局',away:awayName+'赢'};
+    if(showPred){
+      predHtml='<div class="prediction-row done"><div><div class="pred-label">我猜</div><div class="pred-value '+pred+'">'+labels[pred]+'</div></div></div>';
+    }else if(showRes){
       const pts=calcPoints(m.id);
-      const actual=result.home>result.away?'home':result.home<result.away?'away':'draw';
-      const predMatch=pred===actual;
-      const emoji=predMatch?'✅':pred?'❌':'';
-      predHtml=`
-        <div class="prediction-row done">
-          <div><div class="pred-label">我的预测</div><div class="pred-value ${pred||'lose'}">${pred?labels[pred]:'未预测'}</div></div>
-          ${pred?`<div style="font-size:12px;color:${predMatch?'var(--win)':'var(--lose)'};font-weight:600;align-self:center">${emoji} ${predMatch?'+'+pts:'+'+pts}</div>`:''}
-        </div>`;
+      const actual=scores.home>scores.away?'home':scores.home<scores.away?'away':'draw';
+      const correct=pred===actual;
+      predHtml='<div class="prediction-row done"><div><div class="pred-label">我猜</div><div class="pred-value '+(pred||'lose')+'">'+(pred?labels[pred]:'—')+'</div></div>'
+        +(pred?`<div style="font-size:12px;color:${correct?'var(--win)':'var(--lose)'};font-weight:600;align-self:center">${correct?'✅':'❌'} +${pts}</div>`:'')+'</div>';
     }else if(!played){
-      predHtml=`
-        <div class="prediction-row">
-          <div class="pred-actions">
-            <button class="pred-btn" onclick="predict(${m.id},'home')" style="flex:1.2">🏠 ${homeName}赢</button>
-            <button class="pred-btn" onclick="predict(${m.id},'draw')">🤝 平局</button>
-            <button class="pred-btn" onclick="predict(${m.id},'away')" style="flex:1.2">${awayName}赢 🏠</button>
-          </div>
-        </div>`;
+      predHtml='<div class="prediction-row"><div class="pred-actions">'
+        +'<button class="pred-btn" onclick="predict('+m.id+',\'home\')" style="flex:1.2">🏠 '+homeName+'赢</button>'
+        +'<button class="pred-btn" onclick="predict('+m.id+',\'draw\')">🤝 平局</button>'
+        +'<button class="pred-btn" onclick="predict('+m.id+',\'away\')" style="flex:1.2">'+awayName+'赢 🏠</button>'
+        +'</div></div>';
     }
 
     let resultRow='';
-    if(played&&!result&&!m.home.includes('Group')&&!m.home.includes('W')){
-      resultRow=`
-        <div class="result-row" id="result-${m.id}">
-          <span style="font-size:12px;color:var(--muted)">比分:</span>
-          <input type="number" id="hs-${m.id}" placeholder="?" min="0" max="20">
-          <span>:</span>
-          <input type="number" id="as-${m.id}" placeholder="?" min="0" max="20">
-          <button class="save-btn" onclick="saveResult(${m.id})">记录</button>
-        </div>`;
+    if(played&&!showRes&&!m.home.includes('Group')&&!m.home.startsWith('W')&&!m.home.startsWith('L')){
+      resultRow='<div class="result-row" id="result-'+m.id+'">'
+        +'<span style="font-size:12px;color:var(--muted)">比分:</span>'
+        +'<input type="number" id="hs-'+m.id+'" placeholder="?" min="0" max="20">'
+        +'<span>:</span><input type="number" id="as-'+m.id+'" placeholder="?" min="0" max="20">'
+        +'<button class="save-btn" onclick="saveResult('+m.id+')">记录</button></div>';
     }
 
-    html+=`
-      <div class="match-card ${played?'played':''}">
-        <div class="match-date">
-          <span class="stage-tag ${stageClass(m.stage)}">${STAGE_LABELS[m.stage]||m.stage}${m.group?' · '+m.group+'组':''}</span>
-        </div>
-        <div class="match-teams">
-          <div class="team"><div class="flag">${m.homeFlag}</div><div class="name ${m.home.length>10?'small':''}">${homeName}</div></div>
-          <div class="vs-area">${scoreHtml}</div>
-          <div class="team"><div class="flag">${m.awayFlag}</div><div class="name ${m.away.length>10?'small':''}">${awayName}</div></div>
-        </div>
-        ${predHtml}
-        ${resultRow}
-      </div>`;
+    const stageInfo=STAGE_LABELS[m.stage]||m.stage;
+    html+='<div class="match-card'+(isToday?' today':'')+'">'
+      +'<div style="font-size:11px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px">'
+      +'<span class="stage-tag '+stageClass(m.stage)+'">'+stageInfo+(m.group?' · '+m.group+'组':'')+'</span>'
+      +(m.time?'<span>'+m.time+'</span>':'')+'</div>'
+      +'<div class="match-teams">'
+      +'<div class="team"><div class="flag">'+m.homeFlag+'</div><div class="name '+(m.home.length>10?'small':'')+'">'+homeName+'</div></div>'
+      +'<div class="vs-area">'+scoreHtml+'</div>'
+      +'<div class="team"><div class="flag">'+m.awayFlag+'</div><div class="name '+(m.away.length>10?'small':'')+'">'+awayName+'</div></div>'
+      +'</div>'+predHtml+resultRow+'</div>';
   });
 
-  if(matches.length===0) html=`<div class="empty-state"><div class="emoji">🎉</div><p>没有找到比赛</p></div>`;
+  if(matches.length===0)html='<div class="empty-state"><div class="emoji">🎉</div><p>没有找到比赛</p></div>';
   area.innerHTML=html;
+}
+
+// --- RENDER: STATS ---
+function getStats(){
+  let totalPred=0,totalCorrect=0,totalPts=0;
+  scheduleData.forEach(m=>{
+    const p=getPrediction(m.id),r=getResult(m.id);
+    if(p)totalPred++;
+    if(r&&p){const a=r.home>r.away?'home':r.home<r.away?'draw':'draw';if(p===a)totalCorrect++;totalPts+=calcPoints(m.id);}
+  });
+  return{totalPred,totalCorrect,totalPts};
 }
 
 function renderStats(){
   const area=document.getElementById('contentArea');
-  let totalPred=0,totalCorrect=0,totalPts=0,missed=0;
-  scheduleData.forEach(m=>{
-    const p=getPrediction(m.id),r=getResult(m.id);
-    if(p)totalPred++;
-    if(r){
-      const actual=r.home>r.away?'home':r.home<r.away?'draw':'draw';
-      if(p){
-        if(p===actual)totalCorrect++;
-        totalPts+=calcPoints(m.id);
-      }
-    }
-    if(!p&&hasResult(m))missed++;
-  });
-
+  const {totalPred,totalCorrect,totalPts}=getStats();
   const accuracy=totalPred>0?Math.round(totalCorrect/totalPred*100):0;
 
   const badges=[
@@ -286,42 +277,60 @@ function renderStats(){
     {id:'gold500',name:'超级记者',icon:'🌟',desc:'总分达到500',earned:totalPts>=500},
   ];
 
-  let html=`
-    <div class="stats-panel">
-      <div class="stat-cards">
-        <div class="stat-card"><div class="num">${totalPred}</div><div class="label">预测场次</div></div>
-        <div class="stat-card"><div class="num">${totalCorrect}</div><div class="label">猜对场次</div></div>
-        <div class="stat-card"><div class="num">${accuracy}%</div><div class="label">正确率</div></div>
-        <div class="stat-card"><div class="num gold">${totalPts}</div><div class="label">总积分</div></div>
-      </div>
-      <div style="background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border)">
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--muted)">
-          <span>进度</span><span>${totalPred}/104 场</span>
-        </div>
-        <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:${Math.round(totalPred/104*100)}%;background:var(--primary);border-radius:4px;transition:width .5s"></div>
-        </div>
-      </div>
-      <div class="badges"><h3>🏅 成就徽章</h3><div class="badge-grid">`;
+  // Activity feed from history
+  const recentBadgeNames=appData.history.filter(h=>h.type==='badge').map(h=>h.name);
+  let actHtml='<div class="activity-feed"><h3>📋 近期动态</h3>';
+  const recent=appData.history.slice(0,15);
+  if(recent.length===0){
+    actHtml+='<div class="activity-empty">还没有记录，开始预测吧！</div>';
+  }else{
+    recent.forEach(h=>{
+      const d=new Date(h.ts);const ds=(d.getMonth()+1)+'/'+d.getDate();
+      if(h.type==='predict'){
+        actHtml+='<div class="activity-item"><span class="act-icon">🤔</span><span class="act-text">预测了 <b>'+h.teams+'</b>：'+h.choiceLabel+'</span><span class="act-date">'+ds+'</span></div>';
+      }else if(h.type==='result'){
+        actHtml+='<div class="activity-item good"><span class="act-icon">'+(h.correct?'✅':'💪')+'</span><span class="act-text"><b>'+h.teams+'</b> '+h.result+' | '+(h.correct?'猜对了！':'猜错了')+' <b>+'+h.pts+'分</b></span><span class="act-date">'+ds+'</span></div>';
+      }else if(h.type==='badge'){
+        actHtml+='<div class="activity-item badge"><span class="act-icon">'+h.icon+'</span><span class="act-text">获得了成就徽章 <b>「'+h.name+'」</b></span><span class="act-date">'+ds+'</span></div>';
+      }
+    });
+  }
+  actHtml+='</div>';
+
+  let html='<div class="stats-panel"><div class="stat-cards">'
+    +'<div class="stat-card"><div class="num">'+totalPred+'</div><div class="label">预测场次</div></div>'
+    +'<div class="stat-card"><div class="num">'+totalCorrect+'</div><div class="label">猜对场次</div></div>'
+    +'<div class="stat-card"><div class="num">'+accuracy+'%</div><div class="label">正确率</div></div>'
+    +'<div class="stat-card"><div class="num gold">'+totalPts+'</div><div class="label">总积分</div></div>'
+    +'</div>'
+    +'<div class="progress-bar">'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--muted)"><span>预测进度</span><span>'+totalPred+'/104 场</span></div>'
+    +'<div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+Math.round(totalPred/104*100)+'%;background:var(--primary);border-radius:4px;transition:width .5s"></div></div>'
+    +'</div>'
+    +actHtml
+    +'<div class="badges"><h3>🏅 成就徽章</h3><div class="badge-grid">';
   badges.forEach(b=>{
-    html+=`<div class="badge ${b.earned?'earned':'locked'}" title="${b.desc}"><span class="badge-icon">${b.earned?b.icon:'🔒'}</span>${b.name}</div>`;
+    const isNew=recentBadgeNames.includes(b.name);
+    html+='<div class="badge '+(b.earned?'earned':'locked')+(isNew?' new-badge':'')+'" title="'+b.desc+'"><span class="badge-icon">'+(b.earned?b.icon:'🔒')+'</span>'+b.name+'</div>';
   });
-  html+=`</div></div></div>`;
+  html+='</div></div></div>';
   area.innerHTML=html;
   document.getElementById('filterBar').style.display='none';
 }
 
+// --- ACTIONS ---
 function updateTotalScore(){
-  let pts=0;
-  scheduleData.forEach(m=>{pts+=calcPoints(m.id)});
-  document.getElementById('totalScore').textContent=`⭐ ${pts}分`;
+  let pts=0;scheduleData.forEach(m=>{pts+=calcPoints(m.id)});
+  document.getElementById('totalScore').textContent='⭐ '+pts+'分';
 }
 
-// --- ACTIONS ---
 function predict(mid,choice){
   if(getResult(mid)){toast('比赛已结束，无法预测');return}
-  if(getPrediction(mid)){toast('已预测过，可到赛程页修改');return}
+  if(getPrediction(mid)){toast('已预测过');return}
+  const m=scheduleData.find(x=>x.id===mid);
   appData.predictions[mid]=choice;
+  const labels={home:m.home+'赢',draw:'平局',away:m.away+'赢'};
+  addHistory('predict',{mid,choice,choiceLabel:labels[choice],teams:m.home+' vs '+m.away});
   saveData(appData);
   updateTotalScore();
   renderMatches(currentFilter);
@@ -332,20 +341,30 @@ function saveResult(mid){
   const hs=parseInt(document.getElementById('hs-'+mid).value);
   const as=parseInt(document.getElementById('as-'+mid).value);
   if(isNaN(hs)||isNaN(as)){toast('请填写比分');return}
+  const prevPts=getStats().totalPts;
+  const prevCorrect=getStats().totalCorrect;
   appData.results[mid]={home:hs,away:as};
   saveData(appData);
-  updateTotalScore();
   const pts=calcPoints(mid);
-  if(pts>=10){celebrate()}
+  updateTotalScore();
+  const m=scheduleData.find(x=>x.id===mid);
+  const actual=hs>as?'home':hs<as?'away':'draw';
+  const pred=getPrediction(mid);
+  const correct=pred===actual;
+  addHistory('result',{mid,teams:m.home+' vs '+m.away,result:hs+':'+as,pts,correct});
+  const newBadges=checkNewBadges(prevPts,prevCorrect);
+  newBadges.forEach(b=>{addHistory('badge',{name:b.name,icon:b.icon})});
+  if(pts>=10||newBadges.length>0)celebrate();
   renderMatches(currentFilter);
-  toast(pts>=10?'猜对了！🎉 积分+'+pts:'比分已记录，积分+'+pts);
+  let msg='比分已记录，+'+pts+'分';
+  if(newBadges.length>0)msg+=' 🏅 获得「'+newBadges.map(b=>b.name).join('」「')+'」';
+  toast(msg);
 }
 
 function toast(msg){
   const c=document.getElementById('toastContainer');
   const el=document.createElement('div');el.className='toast';el.textContent=msg;
-  c.appendChild(el);
-  setTimeout(()=>el.remove(),2000);
+  c.appendChild(el);setTimeout(()=>el.remove(),2500);
 }
 
 function celebrate(){
@@ -357,34 +376,36 @@ function celebrate(){
     el.style.background=colors[Math.floor(Math.random()*colors.length)];
     el.style.animationDelay=Math.random()*.5+'s';
     el.style.animationDuration=(1.5+Math.random()*1)+'s';
-    c.appendChild(el);
-    setTimeout(()=>el.remove(),2500);
+    c.appendChild(el);setTimeout(()=>el.remove(),2500);
   }
 }
 
-// --- FILTERS & TABS ---
+// --- TABS & FILTERS ---
 let currentFilter='all';
 document.querySelectorAll('.filter-btn').forEach(btn=>{
   btn.addEventListener('click',function(){
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
     this.classList.add('active');
     currentFilter=this.dataset.filter;
+    const tab=document.querySelector('.tab.active');
+    if(tab&&tab.dataset.tab==='stats')return;
     renderMatches(currentFilter);
   });
 });
-
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',function(){
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     this.classList.add('active');
     const t=this.dataset.tab;
     if(t==='matches'){document.getElementById('filterBar').style.display='flex';renderMatches(currentFilter)}
-    else if(t==='predict'){document.getElementById('filterBar').style.display='flex';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.querySelector('[data-filter="pending"]').classList.add('active');currentFilter='pending';renderMatches('pending')}
+    else if(t==='predict'){document.getElementById('filterBar').style.display='flex';
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector('[data-filter="pending"]').classList.add('active');
+      currentFilter='pending';renderMatches('pending');
+    }
     else if(t==='stats'){renderStats()}
   });
 });
-
-init();
 </script>
 </body>
 </html>
