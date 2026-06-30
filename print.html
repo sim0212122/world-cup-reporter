@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>世界杯小记者 · 打印版</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#222;max-width:210mm;margin:0 auto;font-size:12px}
+@media print{
+  body{width:210mm}
+  @page{size:A4;margin:8mm}
+  .page-break{page-break-before:always}
+  .no-print{display:none}
+}
+
+.cover{text-align:center;padding:40px 20px 20px}
+.cover .trophy{font-size:64px}
+.cover h1{font-size:22px;margin:16px 0 8px}
+.cover .subtitle{font-size:13px;color:#666;margin-bottom:8px}
+.cover .name-line{font-size:15px;margin-top:20px;padding:8px;border:1px dashed #999;border-radius:6px;display:inline-block;min-width:160px}
+
+.rules-box{background:#f9faf9;border:1px solid #ddd;border-radius:8px;padding:12px 16px;margin:16px 0}
+.rules-box h3{font-size:14px;margin-bottom:6px}
+.rules-box .rule-line{font-size:11px;line-height:1.8}
+.rules-box .rule-line .pts{color:#0f6e56;font-weight:600}
+
+.page-title{font-size:15px;font-weight:700;text-align:center;padding:12px 0 8px;border-bottom:2px solid #0f6e56;margin-bottom:12px}
+
+.match-row{display:flex;align-items:center;padding:6px 4px;border-bottom:1px solid #eee;gap:6px;min-height:40px}
+.match-row:nth-child(even){background:#fafafa}
+.match-row .date-col{width:36px;font-size:9px;color:#888;text-align:center;line-height:1.3}
+.match-row .teams-col{flex:1;display:flex;align-items:center;justify-content:space-between;gap:4px}
+.match-row .team-name{font-size:10px;font-weight:600;text-align:center;max-width:60px;line-height:1.3}
+.match-row .flag{font-size:15px}
+.match-row .vs{font-size:9px;color:#aaa;margin:0 2px}
+
+.pred-col{display:flex;gap:3px;align-items:center}
+.pred-item{font-size:9px;padding:2px 4px;border:1px solid #ccc;border-radius:4px;text-align:center;white-space:nowrap;min-width:28px}
+.pred-item .circle{display:inline-block;width:12px;height:12px;border:1.5px solid #0f6e56;border-radius:50%;margin-right:3px;vertical-align:middle;position:relative;top:-1px}
+.result-col{display:flex;gap:3px;align-items:center;margin-left:3px}
+.result-col .pred-item{border-style:dashed;border-color:#999}
+.score-col{display:flex;gap:2px;align-items:center;margin-left:3px}
+.score-col span{font-size:9px;color:#888}
+.score-box{width:20px;height:16px;border:1px solid #ddd;border-radius:2px;text-align:center;font-size:9px}
+
+.badge-page{padding:20px;min-height:180mm}
+.badge-page h2{font-size:18px;text-align:center;margin-bottom:20px}
+.badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.badge-card{border:2px dashed #ddd;border-radius:12px;padding:16px;text-align:center}
+.badge-card .b-icon{font-size:32px;margin-bottom:8px}
+.badge-card .b-name{font-size:14px;font-weight:600}
+.badge-card .b-desc{font-size:11px;color:#888;margin-top:4px}
+.badge-card .check-box{display:inline-block;width:28px;height:28px;border:2px solid #0f6e56;border-radius:50%;margin-top:10px;line-height:28px;font-size:14px;color:transparent}
+
+.tips-bar{background:#fffbe6;border:1px solid #ef9f27;border-radius:8px;padding:8px 12px;margin:12px 0;font-size:11px;text-align:center}
+
+.no-print{text-align:center;padding:12px;background:#f0f4f0;margin-bottom:16px}
+.no-print button{padding:10px 28px;border-radius:8px;border:none;background:#0f6e56;color:#fff;font-size:14px;cursor:pointer;font-weight:600}
+
+@media print{.no-print{display:none}}
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <p style="margin-bottom:8px">🖨️ 准备好打印机，建议彩色打印 A4 纸</p>
+  <button onclick="window.print()">打印小记者手册</button>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="trophy">🏆</div>
+  <h1>世界杯小记者 · 2026</h1>
+  <div class="subtitle">FIFA World Cup · Canada / Mexico / USA</div>
+  <div class="subtitle">2026年6月11日 — 7月19日 · 48支球队 · 104场比赛</div>
+  <div class="name-line">小记者：_______________</div>
+</div>
+
+<!-- RULES -->
+<div class="rules-box">
+  <h3>📖 怎么玩？</h3>
+  <div class="rule-line">1. 每场比赛开始前，在「我猜」栏 <b>圈一个</b> 你猜的结果</div>
+  <div class="rule-line">2. 比赛结束后，在「结果」栏 <b>圈出</b> 真实结果，在「比分」栏填上比分</div>
+  <div class="rule-line">3. 让爸爸帮你录入手机，看看得了多少分！</div>
+  <div class="rule-line" style="margin-top:4px"><span class="pts">猜对胜负 +10分</span>　<span class="pts">猜对平局 +15分</span>　<span class="pts">猜错了也有 +3分</span></div>
+</div>
+
+<!-- MATCHES -->
+<div class="page-break"></div>
+<div class="page-title">📅 小组赛（72场）· 第1页</div>
+
+<div class="tips-bar">💡 开赛前在「我猜」栏圈一个 → 赛后填「结果」和「比分」</div>
+
+<div id="printMatches"></div>
+
+<!-- BADGE PAGE -->
+<div class="page-break"></div>
+<div class="badge-page">
+  <h2>🏅 成就徽章收集卡</h2>
+  <p style="text-align:center;font-size:12px;color:#888;margin-bottom:16px">解锁条件达成后，在方框里打勾✅</p>
+  <div class="badge-grid">
+    <div class="badge-card"><div class="b-icon">🌱</div><div class="b-name">新手记者</div><div class="b-desc">完成第1次预测</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">📋</div><div class="b-name">全勤宝宝</div><div class="b-desc">所有比赛都预测了</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">🎯</div><div class="b-name">预测达人</div><div class="b-desc">猜对5场</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">🔮</div><div class="b-name">神算子</div><div class="b-desc">猜对10场</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">🧠</div><div class="b-name">预言大师</div><div class="b-desc">猜对20场</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">🏆</div><div class="b-name">冠军预言家</div><div class="b-desc">赛前猜中冠军</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">📝</div><div class="b-name">勤笔头</div><div class="b-desc">所有比赛都记录了比分</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">⭐</div><div class="b-name">满分记者</div><div class="b-desc">总分达到200分</div><div class="check-box"></div></div>
+    <div class="badge-card"><div class="b-icon">🌟</div><div class="b-name">超级记者</div><div class="b-desc">总分达到500分</div><div class="check-box"></div></div>
+  </div>
+  <div style="text-align:center;margin-top:30px;font-size:14px;color:#0f6e56">
+    我的最终得分：________ 分
+  </div>
+</div>
+
+<script>
+const STAGE_LABELS={group:'小组赛',round32:'1/16决赛',round16:'1/8决赛',quarter:'1/4决赛',semi:'半决赛',bronze:'三四名决赛','final':'决赛'};
+const KO_STAGES=['round32','round16','quarter','semi','bronze','final'];
+
+async function init(){
+  const resp=await fetch('schedule.json');
+  const data=await resp.json();
+  const matches=data.matchList;
+  renderPrintMatches(matches);
+}
+
+function renderPrintMatches(matches){
+  const area=document.getElementById('printMatches');
+  let html='';
+  let currentStage='';
+  let currentDate='';
+  let matchNum=0;
+
+  matches.forEach(m=>{
+    const mStage=STAGE_LABELS[m.stage]||m.stage;
+    if(m.stage!==currentStage){
+      currentStage=m.stage;
+      if(matchNum>0)html+=`<div class="page-break"></div>`;
+      html+=`<div class="page-title">${mStage} ${m.group?m.group+'组':''} ${KO_STAGES.includes(m.stage)?'待对阵确定':''}</div>`;
+
+      if(!KO_STAGES.includes(m.stage)){
+        html+=`<div class="tips-bar">💡 开赛前在「我猜」栏圈一个 → 赛后填「结果」和「比分」</div>`;
+      }
+    }
+    if(m.date!==currentDate){
+      const d=new Date(m.date+'T12:00');
+      const dow=['周日','周一','周二','周三','周四','周五','周六'];
+      html+=`<div style="font-size:11px;font-weight:600;padding:10px 4px 4px;color:#555">${m.date.slice(5)} ${dow[d.getDay()]}</div>`;
+      currentDate=m.date;
+    }
+    matchNum++;
+    const homeShort=m.home.length>8?m.home.slice(0,7)+'…':m.home;
+    const awayShort=m.away.length>8?m.away.slice(0,7)+'…':m.away;
+    const isTBD=m.home.includes('Group')||m.home.startsWith('W')||m.home.startsWith('L');
+
+    html+=`
+      <div class="match-row">
+        <div class="date-col">${m.time?m.time.slice(0,5):''}</div>
+        <div class="teams-col">
+          <span style="display:flex;align-items:center;gap:2px"><span class="flag">${m.homeFlag}</span><span class="team-name">${homeShort}</span></span>
+          <span class="vs">vs</span>
+          <span style="display:flex;align-items:center;gap:2px"><span class="flag">${m.awayFlag}</span><span class="team-name">${awayShort}</span></span>
+        </div>`;
+
+    if(!isTBD){
+      html+=`
+        <div class="pred-col">
+          <span class="pred-item"><span class="circle"></span>${homeShort}赢</span>
+          <span class="pred-item"><span class="circle"></span>平</span>
+          <span class="pred-item"><span class="circle"></span>${awayShort}赢</span>
+        </div>
+        <div class="result-col">
+          <span class="pred-item"><span class="circle"></span>赢</span>
+          <span class="pred-item"><span class="circle"></span>平</span>
+          <span class="pred-item"><span class="circle"></span>赢</span>
+        </div>
+        <div class="score-col">
+          <span>比分</span>
+          <div class="score-box"></div>
+          <span>:</span>
+          <div class="score-box"></div>
+        </div>`;
+    }else{
+      html+=`<div style="font-size:9px;color:#aaa;margin-left:8px">对阵待定</div>`;
+    }
+    html+=`</div>`;
+  });
+  area.innerHTML=html;
+}
+
+init();
+</script>
+</body>
+</html>
