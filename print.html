@@ -4,117 +4,98 @@
 <meta charset="UTF-8">
 <title>世界杯小记者 · 打印版</title>
 <style>
+:root{--bg:#f0f4f0;--card:#fff;--primary:#0f6e56;--accent:#d4537e;--gold:#ef9f27;--text:#2c2c2a;--muted:#888780;--border:#d3d1c7}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:#2c2c2a;background:#f5f0e8;font-size:10px}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:var(--bg);font-size:10px}
 @media print{
   body{background:#fff}
   @page{size:A4;margin:5mm}
   .no-print{display:none}
 }
 
-/* ===== Toolbar ===== */
-.no-print{text-align:center;padding:10px;background:#0f6e56;color:#fff;margin-bottom:8px;border-radius:8px}
-.no-print button{padding:9px 22px;border-radius:8px;border:none;background:#ef9f27;color:#fff;font-size:14px;cursor:pointer;font-weight:700;margin:0 5px}
+/* Toolbar */
+.no-print{text-align:center;padding:10px;background:var(--primary);color:#fff;margin-bottom:8px;border-radius:8px}
+.no-print button{padding:9px 22px;border-radius:8px;border:none;background:var(--gold);color:#fff;font-size:14px;cursor:pointer;font-weight:700;margin:0 5px}
 .no-print select{padding:7px 10px;border-radius:6px;border:1px solid #ccc;font-size:13px;margin:0 5px}
 
-/* ===== COVER ===== */
-.cover{text-align:center;padding:40px 20px 20px;page-break-after:always}
+/* COVER — kept as-is */
+.cover{text-align:center;padding:40px 20px 20px;page-break-after:always;background:#fff}
 .cover .trophy{font-size:64px}
-.cover h1{font-size:22px;margin:16px 0 8px}
+.cover h1{font-size:22px;margin:16px 0 8px;color:var(--primary)}
 .cover .subtitle{font-size:13px;color:#666;margin-bottom:8px}
 .cover .name-line{font-size:15px;margin-top:20px;padding:8px 20px;border:1px dashed #999;border-radius:6px;display:inline-block;min-width:160px}
-
-.rules-box{background:#f9faf9;border:1px solid #ddd;border-radius:8px;padding:10px 16px;margin:14px auto 0;max-width:360px;text-align:left}
+.rules-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 16px;margin:14px auto 0;max-width:380px;text-align:left}
 .rules-box h3{font-size:14px;margin-bottom:5px}
 .rules-box .rule-line{font-size:11px;line-height:1.7}
-.rules-box .pts{color:#0f6e56;font-weight:600}
+.rules-box .pts{color:var(--primary);font-weight:600}
 
-/* ===== CARD GRID ===== */
-.card-sheet{page-break-before:always;padding-top:4px}
+/* Stage sheet */
+.card-sheet{page-break-before:always;padding-top:4px;background:#fff}
 .card-sheet:first-of-type{page-break-before:auto}
-.sheet-title{text-align:center;font-size:14px;font-weight:700;color:#0f6e56;padding:6px 0 8px;font-family:Georgia,serif;letter-spacing:2px}
+.sheet-title{text-align:center;font-size:13px;font-weight:700;color:var(--primary);padding:6px 0 8px;letter-spacing:1px}
 .sheet-title.ko{color:#993c1d}
 
-/* 3 columns × 3 rows = 9 cards per page */
-.card-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:2px}
+/* Grid: 3 cols */
+.card-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:2px}
 
-/* ===== SINGLE CARD ===== */
+/* Card */
 .card{
-  background:#fefdf8;
-  border:1.8px solid #2c2c2a;
-  border-radius:0;
-  padding:6px 5px;
-  position:relative;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:7px 6px;
   page-break-inside:avoid;
   display:flex;flex-direction:column;align-items:center;
-  box-shadow:3px 3px 0 #e8dcc8;
 }
-/* ticket notch — top corners */
-.card::before{
-  content:'';
-  position:absolute;top:-8px;left:50%;transform:translateX(-50%);
-  width:18px;height:18px;
-  background:#fff;
-  border:1.8px solid #2c2c2a;
-  border-radius:50%;
-}
-.card::after{
-  content:'';
-  position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
-  width:18px;height:18px;
-  background:#fff;
-  border:1.8px solid #2c2c2a;
-  border-radius:50%;
-}
-@media print{
-  .card{box-shadow:2px 2px 0 #e2d6c0}
-  .card::before,.card::after{background:#fff}
-}
+.card.today{border-left:3px solid var(--gold)}
 
-/* Card inner padding for top/bottom notch space */
-.card-inner{padding:8px 0 6px;text-align:center;width:100%}
-
-/* Stage badge */
-.card-badge{display:inline-block;font-size:7px;padding:1px 6px;border-radius:2px;font-weight:700;letter-spacing:.5px;margin-bottom:4px;background:#0f6e56;color:#fff}
-.card-badge.ko{background:#993c1d}
+/* Stage tag */
+.stage-tag{display:inline-block;font-size:7px;padding:1px 6px;border-radius:3px;font-weight:600;margin-bottom:4px;background:#e1f5ee;color:var(--primary)}
+.stage-tag.ko{background:#faeee7;color:#993c1d}
 
 /* Date */
-.card-date{font-size:7.5px;color:#8b7d65;font-family:Georgia,serif;margin-bottom:6px}
+.card-date{font-size:7.5px;color:var(--muted);margin-bottom:5px}
 
 /* Teams */
-.card-vs{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:5px}
+.card-vs{display:flex;align-items:center;justify-content:center;gap:3px;margin-bottom:4px}
 .card-team{text-align:center;flex:1;min-width:0}
-.card-team .flag{font-size:24px;line-height:1}
-.card-team .name{font-size:9px;font-weight:700;margin-top:2px;word-break:keep-all;line-height:1.2}
-.card-vs-text{font-size:16px;font-weight:900;color:#c9b896;font-family:Georgia,serif;flex-shrink:0}
+.card-team .flag{font-size:22px;line-height:1}
+.card-team .name{font-size:9px;font-weight:700;margin-top:1px;word-break:keep-all;line-height:1.2}
+.card-vs-text{font-size:14px;font-weight:900;color:var(--border);flex-shrink:0;font-family:Georgia,serif}
 
 /* Time */
-.card-time{font-size:8px;color:#8b7d65;margin-bottom:6px}
+.card-time{font-size:7.5px;color:var(--primary);margin-bottom:5px;font-weight:500}
 
-/* Prediction circles */
-.card-pred{border-top:1px solid #e8dcc8;padding-top:6px;width:100%}
-.card-pred .guess-label{font-size:7px;color:#b8a88a;text-align:center;margin-bottom:4px;font-family:Georgia,serif;letter-spacing:1px}
-.pred-row{display:flex;gap:4px;justify-content:center}
-.pred-item{text-align:center;min-width:0;flex:1}
-.pred-item .circle{display:block;width:20px;height:20px;border:2px solid #0f6e56;border-radius:50%;margin:0 auto 2px;background:#fff}
-.pred-item .plabel{font-size:8px;font-weight:600;color:#4a3f2f;line-height:1.1}
+/* Score for already-known results */
+.card-result-known{font-size:13px;font-weight:700;color:var(--text);padding:4px 0;letter-spacing:1px;margin-bottom:3px}
+
+/* Prediction */
+.card-pred{border-top:1px solid #e8e6dc;padding-top:5px;width:100%}
+.card-pred .guess-label{font-size:7px;color:var(--muted);text-align:center;margin-bottom:3px}
+.pred-row{display:flex;gap:3px;justify-content:center}
+.pred-item{text-align:center;flex:1;min-width:0}
+.pred-item .circle{display:block;width:18px;height:18px;border:2px solid var(--primary);border-radius:50%;margin:0 auto 2px;background:#fff}
+.pred-item .plabel{font-size:7.5px;font-weight:600;color:var(--text);line-height:1.1}
 .pred-item .plabel.draw{color:#185fa5}
 
-/* Result row */
-.card-result{display:flex;align-items:center;gap:3px;justify-content:center;margin-top:4px;padding-top:3px;border-top:1px dotted #e8dcc8;font-size:7px;color:#b8a88a}
-.card-result .rbox{width:16px;height:14px;border:1px solid #d4c8b0;border-radius:2px;background:#fefdf8;text-align:center;line-height:14px}
+/* Result score fill */
+.card-score{margin-top:3px;display:flex;align-items:center;gap:3px;justify-content:center;font-size:7px;color:var(--muted)}
+.card-score .sbox{width:18px;height:14px;border:1px solid var(--border);border-radius:3px;background:var(--bg);text-align:center;line-height:14px;font-size:9px}
 
-/* Number stamp */
-.card-number{font-size:6px;color:#d4c8b0;font-family:Georgia,serif;margin-top:2px;letter-spacing:1px}
+/* Number */
+.card-num{font-size:6px;color:var(--border);margin-top:2px;letter-spacing:1px}
 
 /* TBD card */
-.card.tbd{opacity:.45;box-shadow:1px 1px 0 #e8dcc8}
+.card.tbd{opacity:.4}
 .card.tbd .flag{filter:grayscale(1)}
-.card.tbd .card-badge{background:#999}
+
+/* Score filled card */
+.card.scored .card-result-known{color:var(--text)}
+.card.scored .card-pred{border-top-style:dashed}
 
 @media print{
-  .card-grid{gap:5px}
-  .card{padding:5px 3px;box-shadow:2px 2px 0 #e2d6c0}
+  .card-grid{gap:6px}
+  .card{padding:6px 4px}
 }
 </style>
 </head>
@@ -125,11 +106,11 @@ body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:
   <select id="stageFilter" onchange="applyFilter()">
     <option value="upcoming" selected>待比赛（今起）</option>
     <option value="all">全部</option>
-    <option value="group">小组赛</option>
-    <option value="knockout">淘汰赛</option>
+    <option value="group">仅小组赛</option>
+    <option value="knockout">仅淘汰赛</option>
   </select>
   <button onclick="window.print()">🖨️ 打印</button>
-  <p style="margin-top:6px;font-size:10px;opacity:.8">A4纸彩色打印 · 沿卡片边缘剪开 · 每页9张</p>
+  <p style="margin-top:6px;font-size:10px;opacity:.8">A4纸彩色打印 · 每页9张 · 沿边框剪开</p>
 </div>
 
 <!-- COVER -->
@@ -141,9 +122,9 @@ body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:
   <div class="name-line">小记者：_______________</div>
   <div class="rules-box">
     <h3>📖 怎么玩？</h3>
-    <div class="rule-line">1. 每场比赛开始前，在「猜」栏 <b>圈一个</b></div>
-    <div class="rule-line">2. 赛后爸爸帮你录入手机，看积分！</div>
-    <div class="rule-line" style="margin-top:3px"><span class="pts">猜对胜负 +10</span>　<span class="pts">猜对平局 +15</span>　<span class="pts">猜错 +3</span></div>
+    <div class="rule-line">1. 每场比赛开始前，圈一个「我猜」结果</div>
+    <div class="rule-line">2. 赛后爸爸帮你录入手机，自动算分！</div>
+    <div class="rule-line" style="margin-top:3px"><span class="pts">猜对胜负 +10</span>　<span class="pts">猜对平局 +15</span>　<span class="pts">猜错也有 +3</span></div>
   </div>
 </div>
 
@@ -165,6 +146,8 @@ function applyFilter(){
   fetch('schedule.json').then(r=>r.json()).then(d=>renderCards(d.matchList,filter));
 }
 
+function isPlaceholder(name){return /(?:第一|第二|3rd|^胜者|^负者)/.test(name)}
+
 function renderCards(matches,filter){
   const today=new Date().toISOString().slice(0,10);
   let filtered=[...matches];
@@ -174,71 +157,66 @@ function renderCards(matches,filter){
   else if(filter==='knockout') filtered=filtered.filter(m=>KO_STAGES.includes(m.stage)&&m.date>=today);
 
   const container=document.getElementById('sheetsContainer');
-  let html='';
-  let currentStage='',cardsInSheet=0;
+  let html='',currentStage='';
 
   filtered.forEach((m,i)=>{
     const mStage=STAGE_LABELS[m.stage]||m.stage;
     const isKO=KO_STAGES.includes(m.stage);
-    const isTBD=/(?:第一|第二|3rd|^胜者|^负者)/.test(m.home);
+    const isTBD=isPlaceholder(m.home)||isPlaceholder(m.away);
+    const hasScore=m.homeScore!==null&&m.awayScore!==null;
 
-    // New stage → new sheet
     if(m.stage!==currentStage){
       if(currentStage) html+=`</div></div>`;
       currentStage=m.stage;
-      cardsInSheet=0;
       html+=`<div class="card-sheet"><div class="sheet-title${isKO?' ko':''}">${mStage}</div><div class="card-grid">`;
     }
 
     const d=new Date(m.date+'T12:00');
     const dow=['日','一','二','三','四','五','六'];
     const dateStr=(d.getMonth()+1)+'/'+d.getDate()+' 周'+dow[d.getDay()];
+    const isToday=m.date===today;
+
     const shortHome=m.home.length>7?m.home.slice(0,6)+'…':m.home;
     const shortAway=m.away.length>7?m.away.slice(0,6)+'…':m.away;
     const hFlag=isTBD?'⚽':(m.homeFlag||'⚽');
     const aFlag=isTBD?'⚽':(m.awayFlag||'⚽');
 
-    html+=`
-    <div class="card${isTBD?' tbd':''}">
-      <div class="card-inner">
-        <div class="card-badge${isKO?' ko':''}">${mStage}</div>
-        <div class="card-date">${dateStr}</div>
+    html+=`<div class="card${isToday?' today':''}${hasScore?' scored':''}${isTBD?' tbd':''}">`;
+    html+=`<div class="stage-tag${isKO?' ko':''}">${mStage}</div>`;
+    html+=`<div class="card-date">${dateStr}</div>`;
 
-        <div class="card-vs">
-          <div class="card-team">
-            <div class="flag">${hFlag}</div>
-            <div class="name">${shortHome}</div>
-          </div>
-          <div class="card-vs-text">VS</div>
-          <div class="card-team">
-            <div class="flag">${aFlag}</div>
-            <div class="name">${shortAway}</div>
-          </div>
-        </div>
-
-        <div class="card-time">🕐 ${m.time?m.time.slice(0,5):''}</div>
-        ${!isTBD?`
-        <div class="card-pred">
-          <div class="guess-label">✏️ 猜胜负</div>
-          <div class="pred-row">
-            <div class="pred-item"><span class="circle"></span><span class="plabel">${shortHome}赢</span></div>
-            <div class="pred-item"><span class="circle"></span><span class="plabel draw">平局</span></div>
-            <div class="pred-item"><span class="circle"></span><span class="plabel">${shortAway}赢</span></div>
-          </div>
-          <div class="card-result">
-            <span>比分</span><span class="rbox"></span><span>:</span><span class="rbox"></span>
-          </div>
-        </div>`:`
-        <div style="font-size:8px;color:#b8a88a;padding:8px 0;font-family:Georgia,serif">对阵待定</div>`}
-        <div class="card-number">No.${String(i+1).padStart(3,'0')}</div>
-      </div>
+    html+=`<div class="card-vs">
+      <div class="card-team"><div class="flag">${hFlag}</div><div class="name">${shortHome}</div></div>
+      <div class="card-vs-text">VS</div>
+      <div class="card-team"><div class="flag">${aFlag}</div><div class="name">${shortAway}</div></div>
     </div>`;
 
-    cardsInSheet++;
+    html+=`<div class="card-time">🕐 ${m.time?m.time.slice(0,5):''}</div>`;
+
+    if(hasScore){
+      html+=`<div class="card-result-known">${m.homeScore} : ${m.awayScore}</div>`;
+      html+=`<div style="font-size:7px;color:var(--muted);margin-bottom:2px">（已结束）</div>`;
+    }
+
+    if(!isTBD){
+      html+=`<div class="card-pred">
+        <div class="guess-label">✏️ 猜胜负</div>
+        <div class="pred-row">
+          <div class="pred-item"><span class="circle"></span><span class="plabel">${shortHome}赢</span></div>
+          <div class="pred-item"><span class="circle"></span><span class="plabel draw">平局</span></div>
+          <div class="pred-item"><span class="circle"></span><span class="plabel">${shortAway}赢</span></div>
+        </div>
+        ${!hasScore?`<div class="card-score"><span>比分</span><span class="sbox"></span><span>:</span><span class="sbox"></span></div>`:''}
+      </div>`;
+    }else{
+      html+=`<div style="font-size:8px;color:var(--muted);padding:8px 0">对阵待定</div>`;
+    }
+
+    html+=`<div class="card-num">No.${String(i+1).padStart(3,'0')}</div></div>`;
   });
 
   if(currentStage) html+=`</div></div>`;
-  if(filtered.length===0) html=`<div style="text-align:center;padding:60px;font-size:14px;color:#999">没有比赛啦 🎉</div>`;
+  if(filtered.length===0) html=`<div style="text-align:center;padding:60px;font-size:14px;color:var(--muted)">没有比赛啦 🎉</div>`;
   container.innerHTML=html;
 }
 </script>
