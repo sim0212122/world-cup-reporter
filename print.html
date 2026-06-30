@@ -143,7 +143,7 @@ init();
 
 function applyFilter(){
   const filter=document.getElementById('stageFilter').value;
-  fetch('schedule.json').then(r=>r.json()).then(d=>renderCards(d.matchList,filter));
+  renderCards(SCHEDULE_EMBED.matchList,filter);
 }
 
 function isPlaceholder(name){return /(?:第一|第二|3rd|^胜者|^负者)/.test(name)}
