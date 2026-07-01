@@ -135,6 +135,7 @@ function init(){
     return;
   }
   scheduleData.sort((a,b)=>a.date+b.time>b.date+b.time?1:-1);
+  syncResults();
   updateTotalScore();
   renderMatches();
 }
@@ -144,7 +145,7 @@ window.addEventListener('DOMContentLoaded',init);
 function fmtDate(d){const m=parseInt(d.split('-')[1]),day=parseInt(d.split('-')[2]);return m+'月'+day+'日'}
 function hasResult(m){return m.homeScore!==null&&m.awayScore!==null}
 function getPrediction(mid){return appData.predictions[mid]||null}
-function getResult(mid){return appData.results[mid]||null}
+function getResult(mid){if(appData.results[mid])return appData.results[mid];const m=scheduleData.find(x=>x.id===mid);if(m&&m.homeScore!==null&&m.awayScore!==null)return{home:m.homeScore,away:m.awayScore};return null}
 function calcPoints(mid){const p=getPrediction(mid),r=getResult(mid);if(!p||!r)return 0;const a=r.home>r.away?'home':r.home<r.away?'away':'draw';return p===a?(a==='draw'?15:10):3}
 function stageClass(s){return KO_STAGES.includes(s)?'ko':''}
 function todayStr(){const d=new Date();return d.toISOString().slice(0,10)}
@@ -154,6 +155,19 @@ function isPlaceholder(name){return /第一|第二|3rd|^胜者|^负者/.test(nam
 function formatTBD(name){return name.replace(/([A-L])第一/,'$1 组第一').replace(/([A-L])第二/,'$1 组第二').replace(/^3rd$/,'小组第三')}
 
 // --- HISTORY ---
+function syncResults(){
+  scheduleData.forEach(m=>{
+    if(m.homeScore!==null&&m.awayScore!==null&&!appData.results[m.id]){
+      appData.results[m.id]={home:m.homeScore,away:m.awayScore};
+      const pred=getPrediction(m.id);
+      const hName=isPlaceholder(m.home)?formatTBD(m.home):m.home;
+      const aName=isPlaceholder(m.away)?formatTBD(m.away):m.away;
+      const actual=m.homeScore>m.awayScore?'home':m.homeScore<m.awayScore?'away':'draw';
+      const correct=pred===actual;
+      addHistory('result',{mid:m.id,teams:hName+' vs '+aName,result:m.homeScore+':'+m.awayScore,pts:calcPoints(m.id),correct});
+    }
+  });
+}
 function addHistory(type,data){
   appData.history.unshift({type,...data,ts:new Date().toISOString()});
   if(appData.history.length>100)appData.history.length=100;
