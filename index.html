@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>世界杯小记者 2026</title>
 <style>
 :root{
@@ -156,9 +159,11 @@ function formatTBD(name){return name.replace(/([A-L])第一/,'$1 组第一').rep
 
 // --- HISTORY ---
 function syncResults(){
+  let changed=false;
   scheduleData.forEach(m=>{
     if(m.homeScore!==null&&m.awayScore!==null&&!appData.results[m.id]){
       appData.results[m.id]={home:m.homeScore,away:m.awayScore};
+      changed=true;
       if(getPrediction(m.id)){ // only log history if user actually predicted
         const hName=isPlaceholder(m.home)?formatTBD(m.home):m.home;
         const aName=isPlaceholder(m.away)?formatTBD(m.away):m.away;
@@ -168,6 +173,7 @@ function syncResults(){
       }
     }
   });
+  if(changed)saveData(appData);
 }
 function addHistory(type,data){
   appData.history.unshift({type,...data,ts:new Date().toISOString()});
