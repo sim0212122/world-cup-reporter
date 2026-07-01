@@ -159,12 +159,13 @@ function syncResults(){
   scheduleData.forEach(m=>{
     if(m.homeScore!==null&&m.awayScore!==null&&!appData.results[m.id]){
       appData.results[m.id]={home:m.homeScore,away:m.awayScore};
-      const pred=getPrediction(m.id);
-      const hName=isPlaceholder(m.home)?formatTBD(m.home):m.home;
-      const aName=isPlaceholder(m.away)?formatTBD(m.away):m.away;
-      const actual=m.homeScore>m.awayScore?'home':m.homeScore<m.awayScore?'away':'draw';
-      const correct=pred===actual;
-      addHistory('result',{mid:m.id,teams:hName+' vs '+aName,result:m.homeScore+':'+m.awayScore,pts:calcPoints(m.id),correct});
+      if(getPrediction(m.id)){ // only log history if user actually predicted
+        const hName=isPlaceholder(m.home)?formatTBD(m.home):m.home;
+        const aName=isPlaceholder(m.away)?formatTBD(m.away):m.away;
+        const actual=m.homeScore>m.awayScore?'home':m.homeScore<m.awayScore?'away':'draw';
+        const correct=getPrediction(m.id)===actual;
+        addHistory('result',{mid:m.id,teams:hName+' vs '+aName,result:m.homeScore+':'+m.awayScore,pts:calcPoints(m.id),correct});
+      }
     }
   });
 }
@@ -271,19 +272,19 @@ function renderMatches(filter='all'){
 
 // --- RENDER: STATS ---
 function getStats(){
-  let totalPred=0,totalCorrect=0,totalPts=0;
+  let totalPred=0,totalVerified=0,totalCorrect=0,totalPts=0;
   scheduleData.forEach(m=>{
     const p=getPrediction(m.id),r=getResult(m.id);
     if(p)totalPred++;
-    if(r&&p){const a=r.home>r.away?'home':r.home<r.away?'draw':'draw';if(p===a)totalCorrect++;totalPts+=calcPoints(m.id);}
+    if(r&&p){totalVerified++;const a=r.home>r.away?'home':r.home<r.away?'draw':'draw';if(p===a)totalCorrect++;totalPts+=calcPoints(m.id);}
   });
-  return{totalPred,totalCorrect,totalPts};
+  return{totalPred,totalVerified,totalCorrect,totalPts};
 }
 
 function renderStats(){
   const area=document.getElementById('contentArea');
-  const {totalPred,totalCorrect,totalPts}=getStats();
-  const accuracy=totalPred>0?Math.round(totalCorrect/totalPred*100):0;
+  const {totalPred,totalVerified,totalCorrect,totalPts}=getStats();
+  const accuracy=totalVerified>0?Math.round(totalCorrect/totalVerified*100):0;
 
   const badges=[
     {id:'newbie',name:'新手记者',icon:'🌱',desc:'完成第一次预测',earned:totalPred>=1},
